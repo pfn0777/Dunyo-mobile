@@ -29,5 +29,5 @@ python -m dunyo_mobile.bot.main
 ```bash
 git add .
 git commit -m "feat: tavsif"
-git push amvera main:master
+git push amvera main:master.
 ```
