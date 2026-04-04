@@ -3,9 +3,10 @@ import logging
 from aiogram import F, Router
 from aiogram.types import CallbackQuery, Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from sqlalchemy import select
+from sqlalchemy import func, select
 
 from dunyo_mobile.bot.keyboards.inline import product_card_kb
+from dunyo_mobile.utils.formatters import format_price
 from dunyo_mobile.db.models.product import Category, Product
 from dunyo_mobile.db.session import get_session
 
@@ -24,6 +25,13 @@ async def catalog_handler(message: Message) -> None:
             )
             categories = result.scalars().all()
 
+            count_result = await session.execute(
+                select(Product.category_id, func.count(Product.id).label("cnt"))
+                .where(Product.is_active == True)  # noqa: E712
+                .group_by(Product.category_id)
+            )
+            counts = {row.category_id: row.cnt for row in count_result}
+
         if not categories:
             await message.answer("Hozircha kategoriyalar mavjud emas.")
             return
@@ -31,12 +39,16 @@ async def catalog_handler(message: Message) -> None:
         builder = InlineKeyboardBuilder()
         for cat in categories:
             emoji = cat.emoji or ""
+            cnt = counts.get(cat.id, 0)
             builder.button(
-                text=f"{emoji} {cat.name_uz}",
+                text=f"{emoji} {cat.name_uz} ({cnt} ta)",
                 callback_data=f"cat_{cat.id}",
             )
         builder.adjust(2)
-        await message.answer("📂 Kategoriyani tanlang:", reply_markup=builder.as_markup())
+        await message.answer(
+            "🗂 <b>Kategoriyalar</b>\n\nQaysi bo'limga o'tmoqchisiz?",
+            reply_markup=builder.as_markup(),
+        )
     except Exception as e:
         logger.error("catalog_handler error: %s", e, exc_info=True)
         await message.answer("Xatolik yuz berdi. Iltimos qayta urinib ko'ring.")
@@ -76,6 +88,7 @@ async def category_products(callback: CallbackQuery) -> None:
         cat_id = int(callback.data.split("_")[1])
 
         async with get_session() as session:
+            category = await session.get(Category, cat_id)
             result = await session.execute(
                 select(Product).where(
                     Product.category_id == cat_id,
@@ -104,7 +117,11 @@ async def category_products(callback: CallbackQuery) -> None:
         builder.adjust(1)
         builder.button(text="⬅️ Orqaga", callback_data="back_catalog")
 
-        await callback.message.edit_text("📱 Mahsulotlar:", reply_markup=builder.as_markup())
+        cat_name = category.name_uz if category else ""
+        await callback.message.edit_text(
+            f"📦 <b>{cat_name}</b>\n\nMahsulotni tanlang 👇",
+            reply_markup=builder.as_markup(),
+        )
         await callback.answer()
     except Exception as e:
         logger.error("category_products error: %s", e)
@@ -123,19 +140,18 @@ async def product_card(callback: CallbackQuery) -> None:
             await callback.answer("Mahsulot topilmadi.", show_alert=True)
             return
 
-        stock_label = "✅ Mavjud" if product.stock > 0 else "❌ Tugagan"
-        old_price_line = (
-            f"🏷 Eski narx: <s>{product.old_price:,} UZS</s>\n" if product.old_price else ""
-        )
         text = (
             f"📱 <b>{product.name}</b>\n\n"
-            f"{product.description or ''}\n\n"
-            f"💰 Narx: <b>{product.price:,} UZS</b>\n"
-            f"{old_price_line}"
-            f"📦 {stock_label}"
+            f"💰 Narx: <b>{format_price(product.price)}</b>"
+            + (f"\n🔖 Eski narx: <s>{format_price(product.old_price)}</s>" if product.old_price else "")
+            + "\n\n"
+            + (f"✅ Mavjud: {product.stock} ta" if product.stock > 0 else "❌ Tugagan")
+            + "\n🚚 Yetkazib berish: Toshkent — 15 000 so'm"
+            + "\n🛡️ Kafolat: 14 kun qaytarish"
+            + (f"\n\n📝 {product.description}" if product.description else "")
         )
 
-        kb = product_card_kb(product_id)
+        kb = product_card_kb(product_id, product.stock)
         if product.photo_id:
             await callback.message.answer_photo(
                 photo=product.photo_id, caption=text, reply_markup=kb

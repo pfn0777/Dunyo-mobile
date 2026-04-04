@@ -11,11 +11,15 @@ def payment_methods_kb() -> InlineKeyboardMarkup:
     return builder.as_markup()
 
 
-def product_card_kb(product_id: int) -> InlineKeyboardMarkup:
+def product_card_kb(product_id: int, stock: int = 0) -> InlineKeyboardMarkup:
     builder = InlineKeyboardBuilder()
-    builder.button(text="🛒 Savatga qo'shish", callback_data=f"add_cart_{product_id}")
+    if stock > 0:
+        builder.button(text="🛒 Savatga qo'shish", callback_data=f"add_cart_{product_id}")
+    else:
+        builder.button(text="❌ Tugagan", callback_data="out_of_stock")
     builder.button(text="⬅️ Orqaga", callback_data="back_catalog")
-    builder.adjust(1)
+    builder.button(text="🏠 Bosh sahifa", callback_data="main_menu")
+    builder.adjust(1, 2)
     return builder.as_markup()
 
 

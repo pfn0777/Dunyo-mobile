@@ -10,12 +10,13 @@ from dunyo_mobile.bot.keyboards.inline import payment_methods_kb
 from dunyo_mobile.bot.keyboards.reply import main_menu_kb
 from dunyo_mobile.bot.states.order_states import OrderStates
 from dunyo_mobile.db.models.cart import CartItem
-from dunyo_mobile.db.models.order import Order, OrderItem, PaymentMethod
+from dunyo_mobile.db.models.order import Order, OrderItem, OrderStatus, PaymentMethod
 from dunyo_mobile.db.session import get_session
 from dunyo_mobile.services.delivery import get_delivery_price
 from dunyo_mobile.services.notification import notify_admins_new_order
 from dunyo_mobile.services.payment.click import click_service
 from dunyo_mobile.services.payment.payme import payme_service
+from dunyo_mobile.utils.formatters import format_price
 
 logger = logging.getLogger(__name__)
 router = Router()
@@ -36,7 +37,10 @@ async def checkout_start(callback: CallbackQuery, state: FSMContext) -> None:
             return
 
         await callback.message.answer(
-            "📝 Buyurtmani rasmiylashtirish\n\n👤 Ismingizni kiriting:"
+            "📝 <b>Buyurtmani rasmiylashtirish</b>\n\n"
+            "1️⃣ Ismingiz va familiyangizni kiriting:\n"
+            "<i>Misol: Jasur Karimov</i>",
+            parse_mode="HTML",
         )
         await state.set_state(OrderStates.waiting_name)
         await callback.answer()
@@ -49,7 +53,9 @@ async def checkout_start(callback: CallbackQuery, state: FSMContext) -> None:
 async def get_name(message: Message, state: FSMContext) -> None:
     await state.update_data(full_name=message.text)
     await message.answer(
-        "📞 Telefon raqamingizni kiriting:\nMisol: +998901234567"
+        "2️⃣ Telefon raqamingizni kiriting:\n"
+        "<i>Misol: +998901234567</i>",
+        parse_mode="HTML",
     )
     await state.set_state(OrderStates.waiting_phone)
 
@@ -61,7 +67,11 @@ async def get_phone(message: Message, state: FSMContext) -> None:
         await message.answer("❌ Noto'g'ri format. Qayta kiriting:")
         return
     await state.update_data(phone=phone)
-    await message.answer("📍 Yetkazib berish manzilingizni kiriting:")
+    await message.answer(
+        "3️⃣ Yetkazib berish manzilingizni kiriting:\n"
+        "<i>Misol: Toshkent, Chilonzor tumani, Bunyodkor ko'chasi 12-uy</i>",
+        parse_mode="HTML",
+    )
     await state.set_state(OrderStates.waiting_address)
 
 
@@ -69,8 +79,12 @@ async def get_phone(message: Message, state: FSMContext) -> None:
 async def get_address(message: Message, state: FSMContext) -> None:
     await state.update_data(address=message.text)
     await message.answer(
-        "💳 To'lov usulini tanlang:",
+        "4️⃣ <b>To'lov usulini tanlang:</b>\n\n"
+        "💳 Payme — onlayn to'lov\n"
+        "💳 Click — onlayn to'lov\n"
+        "💵 Naqd — kuryer kelganda to'laysiz",
         reply_markup=payment_methods_kb(),
+        parse_mode="HTML",
     )
     await state.set_state(OrderStates.waiting_payment)
 
@@ -152,11 +166,21 @@ async def select_payment(callback: CallbackQuery, state: FSMContext, bot: Bot) -
 
         await state.clear()
 
+        confirmation_text = (
+            f"✅ <b>Buyurtmangiz qabul qilindi!</b>\n\n"
+            f"🔢 Buyurtma raqami: <b>#{order.id}</b>\n\n"
+            f"👤 {order.full_name}\n"
+            f"📞 {order.phone}\n"
+            f"📍 {order.address}\n\n"
+            f"💰 Jami: <b>{format_price(order.total_price)}</b>\n"
+            f"💳 To'lov: {order.payment_method.value}\n\n"
+            f"🚚 Tez orada kuryer siz bilan bog'lanadi.\n"
+            f"📞 Savol uchun: @dunyo_mobile_support"
+        )
+
         if method == PaymentMethod.cash:
             await callback.message.answer(
-                f"✅ Buyurtmangiz <b>#{order.id}</b> qabul qilindi!\n\n"
-                f"🚚 Tez orada kuryer siz bilan bog'lanadi.\n"
-                f"📞 Savollar uchun: @dunyo_mobile_support",
+                confirmation_text,
                 reply_markup=main_menu_kb(),
             )
         else:
@@ -166,8 +190,7 @@ async def select_payment(callback: CallbackQuery, state: FSMContext, bot: Bot) -
                 payment_url = click_service.generate_payment_url(order.id, order.total_price)
 
             await callback.message.answer(
-                f"✅ Buyurtma <b>#{order.id}</b> yaratildi!\n\n"
-                f"💳 To'lov qilish uchun:\n{payment_url}",
+                confirmation_text + f"\n\n💳 To'lov qilish uchun:\n{payment_url}",
                 reply_markup=main_menu_kb(),
             )
 
@@ -192,22 +215,27 @@ async def my_orders(message: Message) -> None:
             orders = result.scalars().all()
 
         if not orders:
-            await message.answer("Sizda hali buyurtmalar yo'q.")
+            await message.answer(
+                "📦 <b>Buyurtmalarim</b>\n\n"
+                "Siz hali hech narsa buyurtma qilmagansiz.\n\n"
+                "📱 Katalogga o'ting va birinchi buyurtmangizni bering!"
+            )
             return
 
-        text = "📦 <b>So'nggi buyurtmalaringiz:</b>\n\n"
         status_labels = {
-            "pending": "⏳ Kutilmoqda",
-            "confirmed": "✅ Tasdiqlangan",
-            "delivering": "🚚 Yetkazilmoqda",
-            "delivered": "📬 Yetkazildi",
-            "cancelled": "❌ Bekor qilindi",
+            OrderStatus.pending: "⏳ Kutilmoqda",
+            OrderStatus.confirmed: "✅ Tasdiqlangan",
+            OrderStatus.delivering: "🚚 Yetkazilmoqda",
+            OrderStatus.delivered: "📦 Yetkazildi",
+            OrderStatus.cancelled: "❌ Bekor qilindi",
         }
+        text = "📦 <b>So'nggi buyurtmalaringiz:</b>\n\n"
         for o in orders:
-            status = status_labels.get(o.status.value, o.status.value)
+            status_emoji = status_labels.get(o.status, o.status.value)
             text += (
-                f"🔹 <b>#{o.id}</b> — {o.total_price:,} UZS\n"
-                f"   {status} · {o.created_at.strftime('%d.%m.%Y')}\n\n"
+                f"🔢 <b>#{o.id}</b> — {status_emoji}\n"
+                f"💰 {format_price(o.total_price)}\n"
+                f"📅 {o.created_at.strftime('%d.%m.%Y %H:%M')}\n\n"
             )
 
         await message.answer(text)

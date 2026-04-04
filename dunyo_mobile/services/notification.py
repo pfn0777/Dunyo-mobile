@@ -4,24 +4,27 @@ from aiogram import Bot
 from aiogram.exceptions import TelegramAPIError
 
 from dunyo_mobile.config import settings
+from dunyo_mobile.utils.formatters import format_price
 
 logger = logging.getLogger(__name__)
 
 
-def _format_price(amount: int) -> str:
-    return f"{amount:,} UZS".replace(",", " ")
-
-
 async def notify_admins_new_order(bot: Bot, order) -> None:
-    item_count = sum(item.quantity for item in order.items) if order.items else 0
+    items_lines = "\n".join([
+        f"  • {item.product.name} × {item.quantity} = "
+        f"{format_price(item.price * item.quantity)}"
+        for item in order.items
+    ]) if order.items else "  —"
     text = (
         f"🆕 <b>Yangi buyurtma #{order.id}</b>\n\n"
         f"👤 {order.full_name}\n"
         f"📞 {order.phone}\n"
-        f"📍 {order.address}\n"
-        f"💰 {_format_price(order.total_price)}\n"
-        f"💳 {order.payment_method}\n"
-        f"📦 {item_count} ta mahsulot"
+        f"📍 {order.address}\n\n"
+        f"🛍 Mahsulotlar:\n{items_lines}\n\n"
+        f"{'─' * 20}\n"
+        f"💰 Jami: <b>{format_price(order.total_price)}</b>\n"
+        f"💳 To'lov: {order.payment_method.value}\n"
+        f"📅 {order.created_at.strftime('%d.%m.%Y %H:%M')}"
     )
     from dunyo_mobile.bot.keyboards.inline import order_status_kb
 
