@@ -193,7 +193,7 @@ alembic downgrade -1
 ```env
 BOT_TOKEN=                    # @BotFather dan olingan token
 ADMIN_IDS=123456789           # Vergul bilan ajratilgan admin ID lar
-CHANNEL_ID=@dunyo_mobile      # Asosiy kanal
+CHANNEL_ID=@dunyo_mobile_olot  # Asosiy kanal
 DATABASE_URL=postgresql+asyncpg://...
 PAYME_MERCHANT_ID=
 PAYME_SECRET_KEY=

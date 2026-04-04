@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     # Bot
     BOT_TOKEN: str
     ADMIN_IDS: List[int]
-    CHANNEL_ID: str = "@dunyo_mobile"
+    CHANNEL_ID: str = "@dunyo_mobile_olot"
 
     # Database
     DATABASE_URL: str

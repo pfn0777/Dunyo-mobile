@@ -13,7 +13,7 @@ class ClickService:
             f"&merchant_id={settings.CLICK_MERCHANT_ID}"
             f"&amount={amount_uzs}"
             f"&transaction_param={order_id}"
-            f"&return_url=https://t.me/dunyo_mobile_bot"
+            f"&return_url=https://t.me/DunyoMobileBot"
         )
 
     def verify_signature(

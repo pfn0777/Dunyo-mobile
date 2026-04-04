@@ -14,7 +14,7 @@ async def contact_handler(message: Message) -> None:
         "🕐 Ish vaqti: 09:00 — 22:00\n\n"
         "💬 Savol va takliflar:\n"
         "👤 Menejer: @dunyo_mobile_support\n"
-        "📢 Kanal: @dunyo_mobile\n\n"
+        "📢 Kanal: https://t.me/dunyo_mobile_olot\n\n"
         "📦 Buyurtma holati uchun:\n"
         "/buyurtmalarim — buyurtmalaringizni ko'ring"
     )
