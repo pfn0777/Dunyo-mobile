@@ -38,7 +38,7 @@ async def catalog_handler(message: Message) -> None:
         builder.adjust(2)
         await message.answer("📂 Kategoriyani tanlang:", reply_markup=builder.as_markup())
     except Exception as e:
-        logger.error("catalog_handler error: %s", e)
+        logger.error("catalog_handler error: %s", e, exc_info=True)
         await message.answer("Xatolik yuz berdi. Iltimos qayta urinib ko'ring.")
 
 
