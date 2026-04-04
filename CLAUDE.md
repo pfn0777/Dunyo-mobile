@@ -1,3 +1,8 @@
+---
+description: 
+alwaysApply: true
+---
+
 ```markdown
 # CLAUDE.md — Dunyo Mobile Project Instructions
 
