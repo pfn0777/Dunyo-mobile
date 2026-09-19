@@ -1,0 +1,19 @@
+{
+  // Tests live in their own project because api/tsconfig.json emits production
+  // JS with rootDir "src", which cannot also contain test/. Without this file
+  // api/test/*.test.ts would only ever be transformed by vitest's esbuild and
+  // never actually type-checked. Emits declarations only, into a throwaway dir.
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "noEmit": false,
+    "emitDeclarationOnly": true,
+    "declaration": true,
+    "allowImportingTsExtensions": false,
+    "rootDir": ".",
+    "outDir": "dist-test",
+    "types": ["node"]
+  },
+  "references": [{ "path": "../shared" }, { "path": "./tsconfig.json" }],
+  "include": ["test/**/*.ts"]
+}

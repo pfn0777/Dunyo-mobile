@@ -1,0 +1,88 @@
+# Dunyo Mobile API image. Multi-stage: stage 1 builds the TypeScript
+# workspace (shared + api), stage 2 ships only what's needed to run it.
+#
+# Build context is the REPO ROOT (not deploy/), because this build needs
+# `shared/` in addition to `api/` -- see deploy/docker-compose.yml
+# (`build.context: ..`, `build.dockerfile: deploy/Dockerfile.api`).
+
+# ---------------------------------------------------------------------------
+# Stage 1: build
+# ---------------------------------------------------------------------------
+FROM node:26-alpine AS builder
+WORKDIR /repo
+
+# Copy manifests first (all three workspaces' package.json are required for
+# `npm ci` to satisfy the single root package-lock.json, even though this
+# image only ever runs `api`) so this layer caches across source-only
+# changes.
+COPY package.json package-lock.json tsconfig.base.json ./
+COPY shared/package.json shared/tsconfig.json ./shared/
+COPY api/package.json api/tsconfig.json ./api/
+COPY web/package.json ./web/
+RUN npm ci
+
+# Bring in the actual source and build. `tsc -b api` builds api's project
+# reference graph, which includes `shared` (declaration-only emit)
+# automatically via api/tsconfig.json's `references` -- no separate build
+# step for shared is needed.
+COPY shared/src ./shared/src
+COPY api/src ./api/src
+RUN npx tsc -b api
+
+# api/src writes its relative imports with explicit `.js` extensions (the
+# TypeScript convention for real ESM output): tsc resolves them to the .ts
+# sources at compile time and emits them verbatim, so the compiled output
+# runs under plain Node ESM with no post-processing. Verified by running
+# `node api/dist/index.js` directly. If you ever drop an extension, the
+# container will crash-loop on ERR_MODULE_NOT_FOUND at the first import.
+
+# Strip devDependencies (typescript, tsx, vitest, the whole web/ toolchain,
+# etc.) out of node_modules in place, so stage 2 only copies runtime deps.
+# Note: this still leaves `web`'s own PRODUCTION dependencies (react, etc.)
+# in node_modules, because a unified npm-workspaces install can't be pruned
+# per-workspace with plain `npm prune`. Harmless for a v1 single
+# low-traffic API container -- a candidate for a later slimming pass (e.g.
+# copying only the subset of node_modules `api` actually resolves) if image
+# size ever becomes a concern.
+RUN npm prune --omit=dev
+
+# ---------------------------------------------------------------------------
+# Stage 2: runtime
+# ---------------------------------------------------------------------------
+FROM node:26-alpine AS runtime
+ENV NODE_ENV=production
+WORKDIR /app
+
+# Dedicated non-root user, rather than relying on the base image's built-in
+# `node` user, so this doesn't depend on that user existing (or keeping
+# this uid) across base image revisions.
+RUN addgroup -g 10001 -S dunyo \
+ && adduser -u 10001 -S -D -H -G dunyo dunyo
+
+# Pruned production dependency tree from stage 1.
+COPY --from=builder --chown=dunyo:dunyo /repo/node_modules ./node_modules
+COPY --from=builder --chown=dunyo:dunyo /repo/package.json ./package.json
+
+# `shared` ships as TypeScript SOURCE, not compiled JS: its package.json
+# "main" points at "./src/index.ts", and shared/tsconfig.json sets
+# `emitDeclarationOnly: true` (types only -- see that file). At runtime,
+# api/dist's compiled JS still does `import ... from '@dunyo/shared'`,
+# which Node resolves via the workspace symlink to shared/src/index.ts and
+# loads directly using Node's built-in TypeScript type-stripping (stable
+# since Node 23.6, present in this node:26 base) -- no ts-node/tsx needed
+# in the runtime image. So `shared/src` must be present here, not just a
+# (nonexistent) `shared/dist` JS build.
+COPY --from=builder --chown=dunyo:dunyo /repo/shared/package.json ./shared/package.json
+COPY --from=builder --chown=dunyo:dunyo /repo/shared/src ./shared/src
+
+COPY --from=builder --chown=dunyo:dunyo /repo/api/package.json ./api/package.json
+COPY --from=builder --chown=dunyo:dunyo /repo/api/dist ./api/dist
+
+USER dunyo
+
+EXPOSE 3000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD wget --quiet --tries=1 --spider http://127.0.0.1:3000/health || exit 1
+
+CMD ["node", "api/dist/index.js"]

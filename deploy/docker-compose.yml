@@ -1,0 +1,111 @@
+# Dunyo Mobile production stack -- single Hetzner VPS, four services.
+# Run from this directory: `docker compose up -d` (reads ./.env
+# automatically; copy .env.example to .env first, see README.md /
+# docs/deploy.md).
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    # Deliberately NO `ports:` mapping. The spec requires Postgres to be
+    # reachable only over the internal Docker network (docs/specs
+    # "Server": "Postgres porti tashqariga ochilmaydi (faqat Docker
+    # tarmog'i)"). Every other service in this file can still reach it at
+    # `postgres:5432` over the default compose network; nothing on the
+    # host's real network interface, and nothing on the internet, can.
+
+  api:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      NODE_ENV: production
+    volumes:
+      - media:/srv/dunyo/media
+    # No published ports either: Caddy reverse-proxies to `api:3000` over
+    # the internal network (see Caddyfile). Nothing needs to reach the API
+    # directly from the host or the internet -- only through Caddy's TLS
+    # termination.
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - api
+    env_file: .env
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ../web/dist:/srv/www:ro
+      - media:/srv/dunyo/media:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+  backup:
+    # No custom image is built for this service (keeps the deliverable
+    # surface to docker-compose.yml + backup.sh, per the deploy spec): it's
+    # a stock Alpine image that installs the three tools it needs
+    # (postgresql16-client, gnupg, rclone) plus bash/curl on first start,
+    # writes a crontab, and hands off to busybox crond in the foreground.
+    # `restart: unless-stopped` means that install step re-runs on every
+    # container restart -- cheap (apk cache, seconds) and keeps this
+    # service self-contained without a separate Dockerfile.
+    image: alpine:3.20
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    env_file: .env
+    environment:
+      # Matches the `postgres` service hostname on the compose network;
+      # DATABASE_URL in .env should point at `postgres:5432` for the same
+      # reason.
+      PGHOST: postgres
+    volumes:
+      - ./backup.sh:/usr/local/bin/backup.sh:ro
+      - media:/srv/dunyo/media:ro
+      # Persist the imported GPG public key and the rclone remote config
+      # across container restarts/recreates -- both are one-time setup
+      # steps documented in docs/deploy.md, not baked into the image.
+      - backup_gnupg:/root/.gnupg
+      - backup_rclone_config:/root/.config/rclone
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -eu
+        apk add --no-cache postgresql16-client gnupg rclone bash curl
+        # backup.sh is bind-mounted read-only (:ro above), so it can't be
+        # chmod +x'd here -- invoke it via `bash` explicitly instead of
+        # relying on its execute bit + shebang.
+        {
+          echo '0 21 * * * bash /usr/local/bin/backup.sh db >> /proc/1/fd/1 2>> /proc/1/fd/2'
+          echo '30 21 * * 0 bash /usr/local/bin/backup.sh media >> /proc/1/fd/1 2>> /proc/1/fd/2'
+        } > /etc/crontabs/root
+        exec crond -f -l 2
+
+volumes:
+  pgdata:
+  media:
+  caddy_data:
+  caddy_config:
+  backup_gnupg:
+  backup_rclone_config:

@@ -1,0 +1,25 @@
+# Root .dockerignore for deploy/Dockerfile.api, whose build context is the
+# repo root (see deploy/docker-compose.yml: `build.context: ..`). Keeps the
+# build context small and avoids ever baking secrets, local media, or build
+# artifacts that get regenerated anyway into an image layer.
+
+**/node_modules
+**/dist
+.git
+web/dist
+media
+design
+
+# Local/editor/test junk that has no business in a build context.
+**/*.tsbuildinfo
+coverage
+**/*.log
+.vscode
+.idea
+.DS_Store
+Thumbs.db
+
+# Never send local env files into a build context.
+.env
+.env.*
+!.env.example

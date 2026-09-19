@@ -1,0 +1,88 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+Dunyo Mobile: a phone/gadget shop Telegram Mini App (customer shop + admin panel), backed by a self-hosted Postgres on a single Hetzner VPS and a Telegram bot webhook — no Supabase, no Deno, no RLS. The behavioral source of truth is `docs/specs/dunyo-miniapp-v1.md` (Uzbek): scope, out-of-scope list, EARS rules, acceptance criteria, and 5 open questions at the end still awaiting an answer. Stitch designs the UI must match live in `design/stitch/*.{html,png}` (390px wide mobile screens; the HTML contains the Tailwind token config), design system "Dunyo Luxury Tech" — dark mode, gold `#ffd682` / mint `#43ffbb`, tokens documented in `design/stitch/DESIGN.md`.
+
+This project is an architectural port of a sibling project, XUMO MARKET (Supabase-based grocery Mini App): Fastify replaces Supabase Edge Functions, `/api/public/*` replaces PostgREST + RLS, a disk volume replaces Supabase Storage, and `product_variants` (color/storage SKUs) replaces flat per-product price/stock. See "Key cross-file invariants" below for what that changes.
+
+## Commands
+
+Run from the repo root (npm workspaces `shared`, `api`, `web`):
+
+```
+npm run typecheck   # tsc -b: shared/, api/ (src), api/tsconfig.test.json (test/), db-tests/, web/
+npm test            # vitest run: shared/test, api/test, db-tests (PGlite), web/src/**/*.test.ts
+npm run build       # web -> web/dist (tsc -b && vite build)
+npm run dev          # web dev server (vite, proxies /api and /media to http://localhost:3000)
+```
+
+Single test:
+```
+npx vitest run shared/test/pricing.test.ts -t "region"
+npx vitest run db-tests/create-order.test.ts -t "idempotency"
+```
+
+Running the API itself (not needed for UI work in mock mode): `npm run dev -w api` (`tsx watch src/index.ts`), which needs `DATABASE_URL` and the rest of `api/src/lib/env.ts`'s required vars — see `deploy/.env.example`.
+
+UI without a backend: `VITE_MOCK=1 npm run dev -w web`. `web/src/lib/mock.ts` implements the full `ApiClient` interface (`web/src/lib/client.ts`) for both the customer app and the admin panel (mock user is owner); it is dynamically imported behind `getClient()`, so it — and its in-memory catalog strings — is dead code and gets tree-shaken out of the production bundle. Vite's dev server has no `server.host` set in `web/vite.config.ts`, so it binds on IPv6 by default — open `http://localhost:5173`, not `http://127.0.0.1:5173`.
+
+CI (`.github/workflows/ci.yml`) runs typecheck, test, build, then fails if `web/dist` contains `BOT_TOKEN|POSTGRES_PASSWORD|WEBHOOK_SECRET|DATABASE_URL` (a leftover `web/ does not exist until Phase 4` comment in that file is stale — the build+scan steps are unconditional now in every phase that matters). As of this writing nothing in this repo has been pushed to `origin` yet (everything is untracked in `git status`), so that CI has never actually executed against this code — only the local commands above have been run and verified green.
+
+## Architecture
+
+```
+Telegram client
+  └─ Mini App (web/, React 18 + Vite + TS strict)     static files
+        │
+        ▼
+  Caddy (TLS, HTTP/2, automatic Let's Encrypt)
+        ├─ /            → static (web/dist)
+        ├─ /media/*     → media volume (immutable cache, content-hashed filenames)
+        └─ /api/*, /tg/* → api:3000
+        │
+        ▼
+  Fastify (Node 22 + TS strict)
+    ├─ /api/public/*    — unauthenticated catalog reads (cacheable)
+    ├─ /api/*           — customer API, `Authorization: tma <initData>`
+    ├─ /api/admin/*      — admin API, `admin_users` re-checked on every request
+    └─ /tg/webhook       — Telegram webhook (X-Telegram-Bot-Api-Secret-Token)
+        │
+        ▼
+  Postgres 16 (pg_trgm) + media volume (/srv/dunyo/media)
+
+  Cron container ── pg_dump → gpg → rclone → Hetzner Storage Box
+```
+
+Postgres is never exposed to the host or the internet — only the `api` and `backup` containers reach it, over the internal Docker network (`deploy/docker-compose.yml` deliberately has no `ports:` on the `postgres` service). The browser never talks to Postgres directly; the Fastify API (`api/src`) is the sole DB client, which is also why there is no RLS anywhere in `db/migrations/`.
+
+## Key cross-file invariants
+
+- **Domain logic is duplicated between TypeScript and SQL on purpose.** `shared/src/pricing.ts` (`calcTotals`) and `shared/src/orderStatus.ts` (`canTransition`) are mirrored in `db/migrations/0003_rpc.sql` (`create_order`, `set_order_status`) — the SQL file's own header comment says so and spells out the formula. Change both sides and their tests together; never edit one without the other.
+- **`shared/src` is runtime-neutral.** It uses only Web Crypto, `TextEncoder` and `URLSearchParams` — no Node built-ins, no `process`, no DOM. It is imported directly by both `web` and `api` as `@dunyo/shared` (no bundling step, unlike XUMO's Deno functions); `shared/tsconfig.json` uses `allowImportingTsExtensions` and relative imports carry explicit `.ts` extensions.
+- **The cart's unit is a variant, not a product.** `product_variants` carries `price`/`old_price`/`stock`/`image_*_path`; `products` carries none of those (only name/brand/category/description/warranty/specs). Every cart line, `POST /api/orders` item, and `order_items` row keys on `variant_id`, never `product_id`. The public catalog query (`api/src/routes/public.ts`, `PRODUCT_CARD_CTES`) joins `products` against a `variant_agg` CTE that aggregates only `is_active = true` variants; a product with zero active variants has no `variant_agg` row, so the join silently drops it from every list — "invisible to the customer catalog" is enforced by a join, not a manual `stock > 0` filter anywhere.
+- **Money is server-authoritative.** `create_order(p_user_id, p_payload)` in `db/migrations/0003_rpc.sql` takes only `variant_id`/`qty`/`expected_price` per item; it locks the matching `product_variants` rows `FOR UPDATE` in **variant_id ascending order** (deadlock-free under concurrent orders touching overlapping variants), computes `stock_changed`/`price_changed` against the now-locked rows, and **re-checks `idempotency_key` a second time after taking the locks** — a concurrent request with the same key may have been blocked on one of those locks and already committed while this one waited; skipping that re-check would misreport a duplicate order as `stock_changed`/`price_changed`/`min_order`. Totals are always recomputed from the locked rows, never from the payload.
+- **Delivery fee comes from `regions`, never from `settings`.** There is no global `delivery_fee` column. `regions.free_delivery_threshold` is nullable; `null` falls back to `settings.free_delivery_threshold` (`threshold = region.free_delivery_threshold ?? settings.free_delivery_threshold` in both `calcTotals` and `create_order`). **A threshold of `0` makes delivery free on every order in that region** (or globally) — never seed a region or `settings` row with `0` there.
+- **Validator `code` strings are a public API contract.** Every write endpoint runs its body through `api/src/lib/validators.ts`, which returns `{ok:false, code}`; the route hands that code to the client verbatim inside the error envelope, and the Mini App branches on it (`web/src/lib/apiError.ts`'s `ApiError.code`, `web/src/lib/checkoutErrors.ts`'s `mapCheckoutError`). Renaming a code (e.g. `stock_changed`, `price_changed`, `delivery_disabled`, `region_invalid`, `min_order`, `invalid_transition`, `channel_required`, `auth_invalid`) is a breaking change on both sides — grep before renaming.
+- **Error envelope is always `{error:{code,message,details?}}`.** Defined once in `api/src/lib/http.ts` (`errorResult`/`ApiErrorBody`); `details` is omitted (not serialized as `null`) when there is none.
+- **Auth: Telegram initData HMAC, no sessions.** `api/src/lib/auth.ts`'s `requireUser` validates `Authorization: tma <initData>` via `@dunyo/shared`'s `validateInitData` and upserts `users`; `requireAdmin` calls `requireUser` and then re-queries `admin_users` **on every single request** — never cached, never trusted from the client. `requireOwner` additionally requires `role==='owner'`. Hiding an admin button in the UI is not a security boundary. The Telegram group's inline status buttons aren't one either: `api/src/routes/webhook.ts`'s `handleOrderStatusCallback` calls `isAdminUser` (`api/src/lib/adminUsers.ts`) fresh on every `callback_query` before acting on it.
+- **Channel gate is a marketing filter, fail-open.** The pure decision (`decideGate`, `isSubscribedStatus`, `normalizeChannelHandle`, `CHANNEL_CHECK_TTL_SEC = 600`) lives in `api/src/lib/channelGate.ts`; `api/src/lib/channelCheck.ts` wires it to Postgres and Telegram (`resolveChannelState`). Anything other than a definitive "not a member" — Telegram down, bot not an admin of the channel, a DB error — lets the user through, is logged, and is **never cached** (only a definitive answer is written to `users.channel_subscribed`/`channel_checked_at`). Enforced in both `api` (`routeCustomer`/`channelGateExempt.ts`: `/me`, `/me/contact`, `/me/channel-check` are exempt, everything else customer-facing gets `403 channel_required`) and the bot's `/start` (withholds the `web_app` button, offers a "Tekshirish" button instead).
+- **`api/src/lib/orderNotify.ts` is the only module that sends order notifications.** `notifyOrderCreated` (new order → group + customer), `notifyOrderStatusChanged` (status change → customer + group refresh), and `refreshGroupOrderMessage` are called from `api/src/routes/admin.ts` (admin status change) and `api/src/routes/webhook.ts` (group button) — both paths converge on this one module. The group message is **edited in place** (`orders.group_chat_id`/`group_message_id`, saved when first sent) via `editTelegramMessage`, never re-posted; orders created before a message was ever sent have both columns `null` and a refresh on them is a silent no-op.
+- **The 0-0-12 installment figure is an estimate only.** `shared/src/installment.ts`'s `installmentMonthly(price, months)` returns `null` (suppressing the whole row in the UI) for a non-finite input, `months <= 0`, or `price < INSTALLMENT_MIN_PRICE` (1,000,000 so'm) — never divides by zero, never shows nasiya on a cheap accessory. `payment_method='installment_request'` on an order is nothing more than an operator flag: `create_order` sets `installment_months` from `settings` and leaves `payment_status='unpaid'`; it creates no financial obligation and changes no total (verified in `db-tests/create-order.test.ts`'s installment test: `grand_total`/`items_total` are identical to the equivalent cash order).
+- **`api/src` relative imports must carry explicit `.js` extensions.** `api/tsconfig.json` sets `moduleResolution: "Bundler"`, which — along with vitest/tsx in dev and tests — happily resolves an extensionless `from './lib/env'`. `tsc -b`'s production build emits that specifier verbatim, and plain Node ESM refuses to resolve it (`ERR_MODULE_NOT_FOUND`), so the compiled container crash-loops on its very first import. `api/test/esmSpecifiers.test.ts` statically greps every `.ts` file under `api/src` for relative imports lacking a `.js`/`.json` extension and fails the suite if it finds one — this is the only thing standing between a green CI and a crash-looping production container.
+- **`web/src/locales/uz.json` is a flat, dot-joined-key dictionary.** `web/src/lib/i18n.ts`'s `t(key, params)` does `dict[key] ?? key` then `{{param}}` interpolation — a plain object lookup, not a nested-path resolver. Nesting the JSON (e.g. turning `"status.new"` into `{"status":{"new":...}}`) silently breaks every key under it: `dict[key]` returns `undefined`, `t()` falls back to returning the raw key string, and nothing throws.
+- **All image URLs go through `mediaUrl()` in `web/src/lib/config.ts`.** Never inline `${config.mediaUrl}/...` anywhere else. An already-absolute URL (`blob:`, `data:`, `http(s):`) is returned unchanged instead of being prefixed, because the admin mock's "upload" endpoints hand back a `URL.createObjectURL()` blob URL and a real server-stored path never starts with a scheme — the check is unambiguous.
+- **`api/tsconfig.json` builds `src/` only; `api/tsconfig.test.json` type-checks `test/`.** They're split because `api/tsconfig.json` emits production JS with `rootDir: "src"`, which cannot also contain `test/`; without the second project, `api/test/*.test.ts` would only ever be transformed by vitest's esbuild and never actually type-checked by `tsc`. Both are referenced from the root `tsconfig.json` (`references: [shared, api, api/tsconfig.test.json, db-tests, web]`), which is what `npm run typecheck` (`tsc -b`) walks.
+
+## Test conventions
+
+Unit-only, mirroring XUMO: nothing mocks `fetch`, Telegram, or the DB, and there are no component/render tests (no testing-library dependency; `vitest.config.ts` only includes `.test.ts` globs). New logic is made testable by **extracting the pure decision out of its impure caller** — the way `channelGate.ts` (`decideGate`) was carved out of `channelCheck.ts`, `orderErrors.ts`/`checkoutErrors.ts` out of the route/UI code that calls them, `router.ts` (`matchPath`/`stripPrefix`) out of `index.ts`'s route wiring, and `adminApi`/`orderStatusHelpers.ts` out of the admin pages — or by injecting the side effect. Modules that are pure DB/Telegram wiring stay untested on purpose: `api/src/lib/{auth,db,telegram,orderNotify,channelCheck,adminUsers}.ts`, `api/src/routes/*.ts` (including the owner-only admin-management logic in `admin.ts` — `cannot_delete_self`/`cannot_delete_last_owner`), and both bootstrap files (`api/src/index.ts`, `web/src/main.tsx`) have no direct test file; put anything worth asserting in a pure module instead of reaching for a mock.
+
+SQL logic (`create_order`, `set_order_status`) is tested against PGlite in `db-tests/`, not a live Postgres — `db-tests/helpers/db.ts` applies `db/migrations/*.sql` in filename order to an in-memory instance. Tests use named `vitest` imports and relative imports with explicit `.ts` extensions.
+
+## Deployment facts
+
+- One Hetzner VPS (`178.104.103.113`, CX22 — 2 vCPU/4 GB/40 GB). `docker compose` in `deploy/` runs four services: `postgres` (no published port), `api` (no published port, reached only via Caddy), `caddy` (80/443, TLS via Let's Encrypt, serves `web/dist` and `/media` with `Cache-Control: public, max-age=31536000, immutable` off content-hashed filenames), `backup` (Alpine + cron, no custom image).
+- Backups are `pg_dump --format=custom | gpg --encrypt` **piped directly** — the plaintext dump is never written to disk, only the encrypted `.gpg` output (`deploy/backup.sh`). Nightly DB dump at 21:00 UTC (02:00 Tashkent), weekly media tar; both upload to a Hetzner Storage Box via `rclone`, 14-day retention, and a Telegram alert on any failure of the dump/encrypt/upload chain.
+- `docs/deploy.md` (Uzbek) is the full runbook: server hardening, `.env` setup, first migration, first owner + shop group registration, `scripts/set-webhook.ps1`, backup restore drill, update/rollback, and a troubleshooting table.
+- **No deploy has happened yet.** `deploy/.env.example` is all placeholders (no real `TELEGRAM_BOT_TOKEN`, no real domain), the bot token and the shop group's chat id are both still pending, and nothing in this repo has been pushed to a remote yet. Every "works in production" claim in this codebase is unverified until that first deploy.

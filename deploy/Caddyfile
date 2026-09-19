@@ -1,0 +1,61 @@
+{$DOMAIN} {
+	encode gzip zstd
+
+	# Security headers applied to every response.
+	#
+	# X-Frame-Options is deliberately NOT set. It only supports a single
+	# static value (DENY / SAMEORIGIN / the deprecated ALLOW-FROM) and this
+	# page MUST be embeddable cross-origin: Telegram Web renders the Mini
+	# App inside an <iframe> whose parent document is served from
+	# telegram.org (web.telegram.org / webk.telegram.org / webz.telegram.org),
+	# a different origin from {$DOMAIN}. Setting X-Frame-Options: DENY or
+	# SAMEORIGIN here -- the usual security-hardening reflex -- would block
+	# that iframe outright and the Mini App would never render inside
+	# Telegram at all (it would still open fine in a normal browser tab,
+	# which is exactly why this class of bug is easy to miss in testing).
+	# Framing is controlled instead via the CSP `frame-ancestors` directive
+	# below, which is the modern replacement for X-Frame-Options, supports
+	# multiple origins, and is honored by every client that can run a
+	# Telegram Mini App in the first place.
+	header {
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Content-Security-Policy "frame-ancestors 'self' https://web.telegram.org https://webk.telegram.org https://webz.telegram.org https://*.web.telegram.org;"
+		# Don't advertise the exact server software/version.
+		-Server
+	}
+
+	# Fastify API: customer, public and admin routes.
+	handle /api/* {
+		reverse_proxy api:3000
+	}
+
+	# Telegram webhook (X-Telegram-Bot-Api-Secret-Token checked by the API
+	# itself, not here).
+	handle /tg/* {
+		reverse_proxy api:3000
+	}
+
+	# Product/category/banner images. `handle_path` strips the /media
+	# prefix before serving from the shared volume, which is mounted
+	# read-only into this container (see docker-compose.yml). Filenames
+	# are content-hashed (see docs/specs "Rasm yuklash"), so caching them
+	# forever is safe -- a changed image gets a new path, not a new byte
+	# stream at the same URL.
+	handle_path /media/* {
+		root * /srv/dunyo/media
+		header Cache-Control "public, max-age=31536000, immutable"
+		file_server
+	}
+
+	# Everything else: the built SPA, with a fallback to index.html so
+	# client-side routes (deep links like /admin/orders, /product/123)
+	# don't 404 on a hard reload -- Caddy tries the literal file/dir first
+	# (so real static assets like /assets/*.js still serve directly), and
+	# only falls back to index.html when nothing on disk matches.
+	handle {
+		root * /srv/www
+		try_files {path} /index.html
+		file_server
+	}
+}
