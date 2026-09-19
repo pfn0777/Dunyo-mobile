@@ -11,7 +11,7 @@ Dizayn manbasi: [`design/stitch/`](./design/stitch/) (Stitch'dan eksport qilinga
 
 ```
 shared/     — runtime-neytral domen logikasi (pricing, orderStatus, phone, telegramAuth, installment, importValidation)
-api/        — Fastify backend (Node 22, TS strict): routes/{public,customer,admin,webhook}.ts, lib/*
+api/        — Fastify backend (Node 26, TS strict): routes/{public,customer,admin,webhook}.ts, lib/*
 web/        — React Mini App: customer sahifalari (pages/) + admin panel (admin/, lazy-load)
 db/         — SQL migratsiyalar (raqamli tartibda), shu jumladan create_order/set_order_status RPC
 db-tests/   — PGlite ustida SQL testlari (Postgres o'rniga in-memory)
@@ -25,7 +25,7 @@ docs/       — spec va deploy hujjatlari
 ```
 npm install
 npm run typecheck   # tsc -b (shared, api, api test, db-tests, web)
-npm test            # vitest run (336 test, 41 fayl: shared/test, api/test, db-tests, web/src/**)
+npm test            # vitest run (344 test, 42 fayl: shared/test, api/test, db-tests, web/src/**)
 npm run build       # web -> web/dist
 npm run dev          # web dev server (Vite, /api va /media localhost:3000'ga proksi qiladi)
 ```
@@ -45,4 +45,4 @@ VITE_MOCK=1 npm run dev -w web
 
 ## Hozirgi holat
 
-Barcha fazalar (`shared`, `api`, `web`, `db`, `db-tests`, `deploy`) tayyor: `npm run typecheck` va `npm run build` xatosiz, `npm test` — 336/336 o'tadi. Production'ga hali deploy qilinmagan (bot tokeni va do'kon guruhi hali tayinlanmagan) — qadamlar uchun [`docs/deploy.md`](./docs/deploy.md)ga qarang. Qabul qilish mezonlarining qay biri tasdiqlangani, qay biri faqat deploy'da tekshirilishi mumkinligi haqida: [`docs/acceptance.md`](./docs/acceptance.md).
+Barcha fazalar (`shared`, `api`, `web`, `db`, `db-tests`, `deploy`) tayyor: `npm run typecheck` va `npm run build` xatosiz, `npm test` — 344/344 o'tadi. Production'ga hali deploy qilinmagan (bot tokeni va do'kon guruhi hali tayinlanmagan) — qadamlar uchun [`docs/deploy.md`](./docs/deploy.md)ga qarang. Qabul qilish mezonlarining qay biri tasdiqlangani, qay biri faqat deploy'da tekshirilishi mumkinligi haqida: [`docs/acceptance.md`](./docs/acceptance.md).
