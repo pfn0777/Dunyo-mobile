@@ -1,4 +1,4 @@
-import type { PGlite } from '@electric-sql/pglite';
+import type { Queryable } from './queryable.ts';
 
 export interface VariantFixtureInput {
   colorName: string;
@@ -36,11 +36,11 @@ let brandCounter = 0;
 let categoryCounter = 0;
 let regionCounter = 0;
 
-export async function insertUser(db: PGlite, id: number, firstName = 'Test User'): Promise<void> {
+export async function insertUser(db: Queryable, id: number, firstName = 'Test User'): Promise<void> {
   await db.query('insert into public.users (id, first_name) values ($1, $2)', [id, firstName]);
 }
 
-export async function insertBrand(db: PGlite, name?: string): Promise<number> {
+export async function insertBrand(db: Queryable, name?: string): Promise<number> {
   const brandName = name ?? `Brand ${++brandCounter}`;
   const res = await db.query<{ id: number }>(
     'insert into public.brands (name) values ($1) returning id',
@@ -49,7 +49,7 @@ export async function insertBrand(db: PGlite, name?: string): Promise<number> {
   return res.rows[0]!.id;
 }
 
-export async function insertCategory(db: PGlite, name?: string): Promise<number> {
+export async function insertCategory(db: Queryable, name?: string): Promise<number> {
   const categoryName = name ?? `Category ${++categoryCounter}`;
   const res = await db.query<{ id: number }>(
     'insert into public.categories (name) values ($1) returning id',
@@ -58,7 +58,7 @@ export async function insertCategory(db: PGlite, name?: string): Promise<number>
   return res.rows[0]!.id;
 }
 
-export async function insertRegion(db: PGlite, input: RegionFixtureInput = {}): Promise<number> {
+export async function insertRegion(db: Queryable, input: RegionFixtureInput = {}): Promise<number> {
   const name = input.name ?? `Region ${++regionCounter}`;
   const res = await db.query<{ id: number }>(
     `insert into public.regions (name, delivery_fee, free_delivery_threshold, is_active)
@@ -75,7 +75,7 @@ export async function insertRegion(db: PGlite, input: RegionFixtureInput = {}): 
  * order, so callers can pick out `variantIds[0]`, etc.
  */
 export async function insertProductWithVariants(
-  db: PGlite,
+  db: Queryable,
   input: ProductWithVariantsInput,
 ): Promise<ProductWithVariantsResult> {
   const productRes = await db.query<{ id: number }>(
@@ -111,7 +111,7 @@ export async function insertProductWithVariants(
   return { productId, variantIds };
 }
 
-export async function getVariantStock(db: PGlite, variantId: number): Promise<number> {
+export async function getVariantStock(db: Queryable, variantId: number): Promise<number> {
   const res = await db.query<{ stock: number }>(
     'select stock from public.product_variants where id = $1',
     [variantId],
@@ -123,7 +123,7 @@ export async function getVariantStock(db: PGlite, variantId: number): Promise<nu
   return row.stock;
 }
 
-export async function getProductSoldCount(db: PGlite, productId: number): Promise<number> {
+export async function getProductSoldCount(db: Queryable, productId: number): Promise<number> {
   const res = await db.query<{ sold_count: number }>(
     'select sold_count from public.products where id = $1',
     [productId],
@@ -135,16 +135,16 @@ export async function getProductSoldCount(db: PGlite, productId: number): Promis
   return row.sold_count;
 }
 
-export async function setProductActive(db: PGlite, productId: number, isActive: boolean): Promise<void> {
+export async function setProductActive(db: Queryable, productId: number, isActive: boolean): Promise<void> {
   await db.query('update public.products set is_active = $1 where id = $2', [isActive, productId]);
 }
 
-export async function setVariantActive(db: PGlite, variantId: number, isActive: boolean): Promise<void> {
+export async function setVariantActive(db: Queryable, variantId: number, isActive: boolean): Promise<void> {
   await db.query('update public.product_variants set is_active = $1 where id = $2', [isActive, variantId]);
 }
 
 export async function setSettings(
-  db: PGlite,
+  db: Queryable,
   settings: Partial<{
     minOrderAmount: number;
     freeDeliveryThreshold: number;

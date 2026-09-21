@@ -1,4 +1,4 @@
-import type { PGlite } from '@electric-sql/pglite';
+import type { Queryable } from './queryable.ts';
 
 export interface CreateOrderItemInput {
   variant_id: number;
@@ -51,7 +51,7 @@ export type SetOrderStatusResult =
   | { ok: false; code: 'invalid_transition'; from: string; to: string };
 
 export async function callCreateOrder(
-  db: PGlite,
+  db: Queryable,
   userId: number,
   payload: CreateOrderPayload | Record<string, unknown>,
 ): Promise<CreateOrderResult> {
@@ -63,7 +63,7 @@ export async function callCreateOrder(
 }
 
 export async function callSetOrderStatus(
-  db: PGlite,
+  db: Queryable,
   orderId: number,
   to: string,
   adminId: number,

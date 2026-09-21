@@ -5,6 +5,7 @@
     { "path": "./api" },
     { "path": "./api/tsconfig.test.json" },
     { "path": "./db-tests" },
+    { "path": "./e2e" },
     { "path": "./web" }
   ]
 }
