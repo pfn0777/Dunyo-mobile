@@ -86,25 +86,38 @@ Hozir ilova faqat qora ("Dunyo Luxury Tech"). Stitch'da 5 ta Light ekran tayyor 
   VA `secondary` tokenini nasiya uchun ishlatMASLIGI SHART
 
 ## Acceptance criteria (tugadi deganda)
-- [ ] Birinchi ochilishda (localStorage bo'sh) ilova yorug' temada ochiladi, telefon/Telegram qora rejimda bo'lsa ham.
-- [ ] Bosh sahifa yuqori panelidagi ikonka temani almashtiradi. Profil'dagi "Mavzu" qatori ham shuni qiladi va ikkalasi bir holatni ko'rsatadi.
-- [ ] Sahifani qayta ochganda tanlangan tema flash'siz qo'llanadi (React yuklanishidan oldin, `index.html` inline skripti orqali).
-- [ ] Tanlov CloudStorage bilan sinxronlanadi: local bo'sh + cloud bor → cloud; ikkalasi bor → `updatedAt` bo'yicha yangisi; ikkalasi yo'q → light.
-- [ ] localStorage yoki CloudStorage ishlamasa yoki qiymat buzuq bo'lsa ilova yorug' temada davom etadi va xato log qilinadi (silent catch yo'q).
-- [ ] Telegram sarlavha va fon rangi (`setHeaderColor`/`setBackgroundColor`) temaga mos o'zgaradi.
-- [ ] Mijoz komponentlarida qora temaning qattiq hex/rgba rangi qolmaydi (index.css, index.html, telegram.ts, ProductSheet, ProductCard, FloatingCartPill va boshqalar tokenlarga o'tgan). Overlay (`bg-black/40..50`) ikkala temada mos ko'rinadi.
-- [ ] Light va dark token to'plamlarida kalitlar to'plami bir xil (test). Tailwind `colors` dagi har token uchun ikkala temada qiymat bor.
-- [ ] Nasiya elementlari dark'da mint, light'da `#059669`; `secondary` nasiya uchun ishlatilmaydi.
-- [ ] `/admin/*` doim qora; mijoz temasi admin'ga ta'sir qilmaydi.
-- [ ] **Kontrast:** light temada barcha matn/fon juftliklari WCAG AA (oddiy matn 4.5:1, katta matn/UI ikonka 3:1) ni qanoatlantiradi, ayniqsa slate `#575e70` (`secondary`), `on-surface-variant`, `outline`/kulrang yordamchi matnlar va oltin (`primary`) matn. Tekshirish: token juftliklari bo'yicha avtomatik test (nisbat hisoblash), tegishli bo'lmagan (dekorativ) juftliklar ro'yxatda aniq belgilangan.
-- [ ] **Qattiq oq/qora rasm va ikonkalar:** light temada ko'rinadi. Faqat CSS emas, SVG `fill`/`stroke`, `logo.webp` va `<img>` lar ham tekshirilgan. SVG'lar `currentColor` yoki token ishlatadi; qattiq `#fff/#000` `fill`/`stroke` yo'q (test yoki grep-tekshiruv).
-- [ ] **Holatlar ikkala temada to'g'ri:** bottom sheet (`ProductSheet`, `RegionPicker`), modal/tasdiqlash dialoglari, toast (`lib/toast.tsx`), skeleton loader, empty state va xato ekranlari (`States.tsx`, `AuthErrorScreen`, `SubscribeScreen`, `Placeholder`) light va dark'da ko'zda tekshirilgan (matn o'qiladi, fon/chegara ajralib turadi, skeleton fondan farq qiladi).
-- [ ] 5 ta Light ekran (Bosh sahifa, Katalog, Savat, Sevimlilar, Profil) `design/stitch/light/*.png` bilan ko'zda solishtirilgan (shrift va spacing farqi bundan mustasno, chunki ular qasddan o'zgarmaydi).
-- [ ] `npm run typecheck`, `npm test`, `npm run build` yashil; `web/dist` da CI'ning secret-scan'i o'tadi.
+- [x] Birinchi ochilishda (localStorage bo'sh) ilova yorug' temada ochiladi, telefon/Telegram qora rejimda bo'lsa ham. (brauzerda: `localStorage` bo'sh, `<html>` da `dark` yo'q, fon `#f8f9fa`)
+- [x] Bosh sahifa yuqori panelidagi ikonka temani almashtiradi. Profil'dagi "Mavzu" qatori ham shuni qiladi va ikkalasi bir holatni ko'rsatadi. (`ThemeToggle`, `ThemeRow`; brauzerda 390px, ikkala holat)
+- [x] Sahifani qayta ochganda tanlangan tema flash'siz qo'llanadi (React yuklanishidan oldin, `index.html` inline skripti orqali). (`dist/index.html` `<head>` da inline skript, React'dan oldin ishlaydi)
+- [x] Tanlov CloudStorage bilan sinxronlanadi: local bo'sh + cloud bor → cloud; ikkalasi bor → `updatedAt` bo'yicha yangisi; ikkalasi yo'q → light. (`themeHydrate.test.ts`)
+- [x] localStorage yoki CloudStorage ishlamasa yoki qiymat buzuq bo'lsa ilova yorug' temada davom etadi va xato log qilinadi (silent catch yo'q). (`themeChoice.test.ts`, `themeHydrate.test.ts`: buzuq qiymat, `console.error`)
+- [x] Telegram sarlavha va fon rangi (`setHeaderColor`/`setBackgroundColor`) temaga mos o'zgaradi. (`themeHydrate.test.ts`: `#121316` / `#f8f9fa`)
+- [x] Mijoz komponentlarida qora temaning qattiq hex/rgba rangi qolmaydi (index.css, index.html, telegram.ts, ProductSheet, ProductCard, FloatingCartPill va boshqalar tokenlarga o'tgan). Overlay (`bg-black/40..50`) ikkala temada mos ko'rinadi. (`noHardcodedColors.test.ts`; istisnolar: `#888888` swatch, `FloatingCartPill` `bg-white/15`, `bg-black/40|50` scrim)
+- [x] Light va dark token to'plamlarida kalitlar to'plami bir xil (test). Tailwind `colors` dagi har token uchun ikkala temada qiymat bor. (`themeTokens.test.ts`)
+- [x] Nasiya elementlari dark'da mint, light'da `#059669`; `secondary` nasiya uchun ishlatilmaydi. (matn `installment-text` `#047857`, fon/ikonka `installment`; qarang: chetlanishlar)
+- [x] `/admin/*` doim qora; mijoz temasi admin'ga ta'sir qilmaydi. (`App.tsx` `forcedThemeForPath`; admin sahifa, modal, tasdiq dialogi, toast brauzerda tekshirilgan)
+- [x] **Kontrast:** light temada barcha matn/fon juftliklari WCAG AA (oddiy matn 4.5:1, katta matn/UI ikonka 3:1) ni qanoatlantiradi, ayniqsa slate `#575e70` (`secondary`), `on-surface-variant`, `outline`/kulrang yordamchi matnlar va oltin (`primary`) matn. Tekshirish: token juftliklari bo'yicha avtomatik test (nisbat hisoblash), tegishli bo'lmagan (dekorativ) juftliklar ro'yxatda aniq belgilangan. (`themeContrast.test.ts`, 90 test; 4 ta chetlanish, qarang: quyida)
+- [x] **Qattiq oq/qora rasm va ikonkalar:** light temada ko'rinadi. Faqat CSS emas, SVG `fill`/`stroke`, `logo.webp` va `<img>` lar ham tekshirilgan. SVG'lar `currentColor` yoki token ishlatadi; qattiq `#fff/#000` `fill`/`stroke` yo'q (test yoki grep-tekshiruv).
+- [x] **Holatlar ikkala temada to'g'ri:** bottom sheet (`ProductSheet`, `RegionPicker`), modal/tasdiqlash dialoglari, toast (`lib/toast.tsx`), skeleton loader, empty state va xato ekranlari (`States.tsx`, `AuthErrorScreen`, `SubscribeScreen`, `Placeholder`) light va dark'da ko'zda tekshirilgan (matn o'qiladi, fon/chegara ajralib turadi, skeleton fondan farq qiladi). (yangi `skeleton` tokeni va chegaralar shu tekshiruvdan keyin qo'shildi)
+- [x] 5 ta Light ekran (Bosh sahifa, Katalog, Savat, Sevimlilar, Profil) `design/stitch/light/*.png` bilan ko'zda solishtirilgan (shrift va spacing farqi bundan mustasno, chunki ular qasddan o'zgarmaydi). (yonma-yon ko'rildi; qora hero banner, stories va real rasmlar spec'da "kirmaydi")
+- [x] `npm run typecheck`, `npm test`, `npm run build` yashil; `web/dist` da CI'ning secret-scan'i o'tadi. (to'liq `npm test` 47 fayl yashil; `web/dist` secret-scan toza)
 
 ## Test (pul/xavfsizlikka tegmaydi — majburiy emas, lekin mantiq uchun yoziladi)
 Faqat sof mantiq va tokenlar; UI render testi yo'q (loyiha qoidasi).
-- `themeChoice.test.ts`: `parseTheme` (noto'g'ri qiymat → `null`), `resolveTheme` (local/cloud/`updatedAt` birlashtirish, ikkalasi bo'sh → light, teng `updatedAt` → local).
-- `themeTokens.test.ts`: light va dark kalitlari bir xil; har token `R G B` formatida to'g'ri; `tailwind.config.js` dagi token nomlari to'plami bilan mos.
+- `themeChoice.test.ts`: `parseThemeChoice` (noto'g'ri qiymat → xato, chaqiruvchi log qiladi va light'da qoladi), `resolveTheme` (local/cloud/`updatedAt` birlashtirish, ikkalasi bo'sh → light, teng `updatedAt` → local).
+- `themeTokens.test.ts`: light va dark kalitlari bir xil; har token `R G B` formatida to'g'ri; token nomlari `tailwind.config.ts` ga to'g'ridan-to'g'ri `TOKEN_NAMES` dan o'tadi (alohida ro'yxat yo'q).
 - `themeContrast.test.ts`: light (va dark) uchun asosiy matn/fon juftliklarining kontrast nisbati ≥ 4.5 (katta matn/UI uchun ≥ 3).
 - `theme.hydrate` testi `cartHydrate.test.ts` andozasida (localStorage + CloudStorage almashtiruvchi).
+
+## Implementatsiya holati (2026-09-21)
+Tugadi. Commitlar: `bf0f99b` (tokenlar/store/anti-flash), `dbff3ec` (admin qulfi), `bf2e994` (toggle), `0f6f820` (text-primary/nasiya migratsiyasi), `18792ad` va `8a1bfc4` (skeleton va chegaralar). Push va deploy qilinmagan.
+
+**Stitch Light'dan ongli chetlanishlar (hammasi AA testi talabi):**
+- `on-primary` `#281900` (Stitch: oq; oltin tugmada 3.46:1, `#281900` 4.94:1).
+- `outline` `#6f6353` (Stitch `#827564`, 4.26:1).
+- Yangi `primary-text` `#8a6100` (5.26:1), `installment-text` `#047857` (5.2:1); `installment` fon/ikonka uchun `#059669`.
+- Yangi `skeleton` (dark `#1f1f23` = eski qiymat, light `#e1e3e4`): `Skeleton` va `ImagePlaceholder`.
+- Komponent chegaralari: swatch halqasi `outline` (yaxlit), light'da ErrorState tugmasi va xotira chip'i `outline/80` (dark o'zgarmagan).
+
+**Ma'lum cheklovlar:** Telegram ichida (haqiqiy WebView) anti-flash va `setHeaderColor` tekshirilmagan (deploy yo'q). Dark'da `FloatingCartPill` chip'i (`bg-white/15`) och pill ustida ko'rinmaydi (avvalgi holat, tegilmagan). Flaky PGlite db-testlari: `docs/TODO.md`.
+

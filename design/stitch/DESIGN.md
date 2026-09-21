@@ -240,3 +240,33 @@ The design system standardizes on a refined, rounded geometric profile (`rounded
 ### Bottom Navigation Dock
 - Compact floating glass dock with 5 touch targets: **Bosh sahifa (Home)**, **Katalog (Catalog)**, **Savat (Cart with badge)**, **Sevimlilar (Favorites)**, and **Profil (Profile)**.
 - Active states illuminate in Imperial Gold `#E5B95C` accompanied by a micro dot indicator underneath.
+
+## Light theme ("Dunyo Luxury Tech — Light")
+
+Light is the **default** theme; dark is opt-in through the toggle in the Home header (and the "Mavzu" row in Profile). Only **colours** change between themes. Fonts (Plus Jakarta Sans / Space Grotesk), spacing and radii stay as documented above; the Stitch Light screens use Outfit and larger spacing, and that difference is intentional (see `docs/specs/dunyo-light-theme.md`). Stitch reference screens: `design/stitch/light/*.{html,png}`.
+
+The source of truth is `web/src/theme/tokens.ts` (`darkTokens`, `lightTokens`). A Vite plugin turns it into CSS variables (`:root` = light, `:root.dark` = dark) and Tailwind reads them as `rgb(var(--color-x) / <alpha-value>)`, so `bg-primary/10` keeps working. `/admin/*` is always dark.
+
+| Token | Dark | Light | Notes |
+| --- | --- | --- | --- |
+| `surface` / `background` | `#121316` | `#f8f9fa` | page |
+| `surface-container` | `#1f1f23` | `#ffffff` | cards |
+| `surface-container-low` | `#1b1b1f` | `#f3f4f5` | sheets |
+| `on-surface` | `#e3e2e6` | `#191c1d` | body text |
+| `on-surface-variant` | `#d1c5b2` | `#4f4536` | secondary text |
+| `primary` | `#ffd682` | `#b3811e` | fills, buttons, active states |
+| `on-primary` | `#402d00` | `#281900` | **deviation** (Stitch: white, 3.46:1) |
+| `primary-text` | `#ffd682` | `#8a6100` | gold used as text (5.26:1) |
+| `secondary` | `#43ffbb` | `#575e70` | Light secondary is slate, not mint |
+| `installment` | `#43ffbb` | `#059669` | nasiya fills, icons, badges |
+| `installment-text` | `#43ffbb` | `#047857` | nasiya text (5.2:1) |
+| `outline` | `#9a8f7e` | `#6f6353` | **deviation** (Stitch `#827564`, 4.26:1) |
+| `outline-variant` | `#4e4637` | `#e5e7eb` | decorative hairlines only |
+| `skeleton` | `#1f1f23` | `#e1e3e4` | skeletons, missing-image tiles |
+| `error` | `#ffb4ab` | `#ba1a1a` | |
+
+Rules:
+- Gold **text** uses `text-primary-text`, never `text-primary` (guarded by `noHardcodedColors.test.ts`).
+- Nasiya (0-0-12) uses `installment` / `installment-text`; `secondary` keeps its own meaning (counts, discounts, verified icon).
+- Text needs 4.5:1, non-text UI parts 3:1 (`themeContrast.test.ts`). Component borders that must be seen use `outline` (solid) or `outline/80`, not `outline-variant`.
+- No hard-coded hex/rgb, fixed white/black or SVG `fill`/`stroke` colours in customer components. Allowed: modal scrims (`bg-black/40|50`), the neutral `#888888` swatch fallback and the `FloatingCartPill` `bg-white/15` chip.
