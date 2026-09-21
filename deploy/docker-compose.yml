@@ -1,4 +1,6 @@
-# Dunyo Mobile production stack -- single Hetzner VPS, four services.
+# Dunyo Mobile production stack -- shared Hetzner VPS, three services
+# (postgres, api, backup). TLS/static serving is done by the host Caddy that
+# already fronts Mazzago; add deploy/Caddyfile to /etc/caddy/Caddyfile.
 # Run from this directory: `docker compose up -d` (reads ./.env
 # automatically; copy .env.example to .env first, see README.md /
 # docs/deploy.md).
@@ -7,6 +9,9 @@ services:
   postgres:
     image: postgres:16-alpine
     restart: unless-stopped
+    # Shared VPS (Mazzago runs on it too): cap memory so Dunyo can never
+    # starve it.
+    mem_limit: 384m
     env_file: .env
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -32,6 +37,7 @@ services:
       context: ..
       dockerfile: deploy/Dockerfile.api
     restart: unless-stopped
+    mem_limit: 256m
     depends_on:
       postgres:
         condition: service_healthy
@@ -39,27 +45,14 @@ services:
     environment:
       NODE_ENV: production
     volumes:
-      - media:/srv/dunyo/media
-    # No published ports either: Caddy reverse-proxies to `api:3000` over
-    # the internal network (see Caddyfile). Nothing needs to reach the API
-    # directly from the host or the internet -- only through Caddy's TLS
-    # termination.
-
-  caddy:
-    image: caddy:2-alpine
-    restart: unless-stopped
-    depends_on:
-      - api
-    env_file: .env
+      # Host directory (not a named volume): the host Caddy shared with the
+      # Mazzago project serves /media/* straight from it (see Caddyfile).
+      - /srv/dunyo/media:/srv/dunyo/media
+    # Bound to loopback only: the host Caddy (shared with Mazzago, owns
+    # 80/443) reverse-proxies to 127.0.0.1:3010. Not reachable from the
+    # internet directly.
     ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - ../web/dist:/srv/www:ro
-      - media:/srv/dunyo/media:ro
-      - caddy_data:/data
-      - caddy_config:/config
+      - "127.0.0.1:3010:3000"
 
   backup:
     # No custom image is built for this service (keeps the deliverable
@@ -82,7 +75,7 @@ services:
       PGHOST: postgres
     volumes:
       - ./backup.sh:/usr/local/bin/backup.sh:ro
-      - media:/srv/dunyo/media:ro
+      - /srv/dunyo/media:/srv/dunyo/media:ro
       # Persist the imported GPG public key and the rclone remote config
       # across container restarts/recreates -- both are one-time setup
       # steps documented in docs/deploy.md, not baked into the image.
@@ -104,8 +97,5 @@ services:
 
 volumes:
   pgdata:
-  media:
-  caddy_data:
-  caddy_config:
   backup_gnupg:
   backup_rclone_config:

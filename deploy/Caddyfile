@@ -1,4 +1,7 @@
-{$DOMAIN} {
+# Snippet for the HOST Caddy (/etc/caddy/Caddyfile), appended next to the
+# existing Mazzago block -- not run in a container. Replace the domain below
+# if DOMAIN in deploy/.env differs.
+dunyo.mazzago.uz {
 	encode gzip zstd
 
 	# Security headers applied to every response.
@@ -27,13 +30,13 @@
 
 	# Fastify API: customer, public and admin routes.
 	handle /api/* {
-		reverse_proxy api:3000
+		reverse_proxy 127.0.0.1:3010
 	}
 
 	# Telegram webhook (X-Telegram-Bot-Api-Secret-Token checked by the API
 	# itself, not here).
 	handle /tg/* {
-		reverse_proxy api:3000
+		reverse_proxy 127.0.0.1:3010
 	}
 
 	# Product/category/banner images. `handle_path` strips the /media
@@ -54,7 +57,7 @@
 	# (so real static assets like /assets/*.js still serve directly), and
 	# only falls back to index.html when nothing on disk matches.
 	handle {
-		root * /srv/www
+		root * /srv/dunyo/www
 		try_files {path} /index.html
 		file_server
 	}

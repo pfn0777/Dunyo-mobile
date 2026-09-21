@@ -131,10 +131,9 @@ git check-ignore -v deploy/.env
 
 ## 4) Frontend build
 
-`web/dist` Caddy tomonidan to'g'ridan-to'g'ri statik fayl sifatida beriladi
-(`deploy/docker-compose.yml`dagi `caddy` xizmati `../web/dist`ni
-`/srv/www`ga faqat-o'qish rejimida mount qiladi) — shuning uchun `web/dist`
-`docker compose up`dan **oldin** tayyor bo'lishi kerak, repo ildizida:
+`web/dist` **host Caddy** (Mazzago bilan umumiy, 80/443 ni shu egallaydi)
+tomonidan `/srv/dunyo/www` dan statik fayl sifatida beriladi. Build'dan keyin
+uni shu papkaga nusxalang (§4 oxirida). Repo ildizida:
 
 ```bash
 cd ~/dunyo-mobile   # repo ildiziga qayting
@@ -146,6 +145,19 @@ VITE_API_URL=/api VITE_MEDIA_URL=/media VITE_BOT_USERNAME=<bot_username> \
 skripti `npm run build -w web`ga teng). Bot tokeni yoki DB paroli hech
 qachon `VITE_*` o'zgaruvchisida bo'lmaydi — buni keyinroq (§8) tekshirasiz.
 
+Host Caddy'ga ulash (Mazzago blokiga **tegmasdan**, faqat qo'shing):
+
+```bash
+sudo mkdir -p /srv/dunyo/www /srv/dunyo/media
+sudo cp -r web/dist/. /srv/dunyo/www/
+sudo sh -c 'cat deploy/Caddyfile >> /etc/caddy/Caddyfile'
+sudo caddy validate --config /etc/caddy/Caddyfile
+sudo systemctl reload caddy
+```
+
+`deploy/Caddyfile` dagi domen (`dunyo.mazzago.uz`) `.env` dagi `DOMAIN` bilan
+bir xil bo'lishi kerak. API `127.0.0.1:3010` da tinglaydi.
+
 ---
 
 ## 5) Konteynerlarni ishga tushirish va migratsiya
@@ -155,7 +167,7 @@ cd ~/dunyo-mobile/deploy
 docker compose up -d --build
 ```
 
-Bu `postgres`, `api` (build qilib), `caddy` va `backup` xizmatlarini ishga
+Bu `postgres`, `api` (build qilib) va `backup` xizmatlarini ishga
 tushiradi. `docker compose ps` bilan barchasi `healthy`/`running` ekanini
 tekshiring.
 
@@ -353,4 +365,4 @@ keyin rollback qiling.
 | Webhook `401` (Telegram qayta-qayta urinadi) | `X-Telegram-Bot-Api-Secret-Token` `TELEGRAM_WEBHOOK_SECRET`ga mos kelmayapti | `getWebhookInfo` bilan hozirgi holatni ko'ring, `.\scripts\set-webhook.ps1`ni to'g'ri secret bilan qayta ishga tushiring |
 | Guruhga buyurtma xabari kelmayapti | Bot guruhga a'zo emas yoki `shop_group_chat_id` noto'g'ri/bo'sh | Botni guruhga qayta qo'shing; `settings.shop_group_chat_id`ni §6 bo'yicha qayta tekshiring |
 | Mini App Telegram ichida ochilmayapti (bo'sh ekran, browser konsolida frame xatosi) | `deploy/Caddyfile`dagi `Content-Security-Policy: frame-ancestors` noto'g'ri o'zgartirilgan yoki `X-Frame-Options` qo'shib qo'yilgan | Caddyfile'dagi izohni o'qing — `X-Frame-Options` **hech qachon** qo'shilmasin, faqat `frame-ancestors` orqali Telegram domenlari ruxsat etiladi |
-| Rasmlar `404` qaytaryapti | `MEDIA_DIR` va Caddy'ning `/srv/dunyo/media` mount nuqtasi mos kelmayapti, yoki `media` volume bo'sh | `docker compose exec api ls /srv/dunyo/media` va `docker compose exec caddy ls /srv/dunyo/media` bilan ikkalasida bir xil fayllar borligini tekshiring |
+| Rasmlar `404` qaytaryapti | `MEDIA_DIR` va Caddy'ning `/srv/dunyo/media` mount nuqtasi mos kelmayapti, yoki `media` volume bo'sh | `ls /srv/dunyo/media` (host) va `docker compose exec api ls /srv/dunyo/media` bir xil fayllarni ko'rsatishi kerak (host papka bind mount) |
