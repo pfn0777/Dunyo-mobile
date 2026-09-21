@@ -44,7 +44,9 @@ psql_exec -q -c \
 applied=0
 skipped=0
 
-while IFS= read -r file; do
+# Read the file list on fd 3, not stdin: `docker compose exec` inherits stdin and
+# would swallow the remaining filenames, silently stopping after the first migration.
+while IFS= read -r -u 3 file; do
   name="$(basename "$file")"
 
   already="$(psql_exec -t -A -c "select 1 from public.schema_migrations where filename = '$name';")"
@@ -62,7 +64,7 @@ while IFS= read -r file; do
     printf 'commit;\n'
   } | psql_exec -q
   applied=$((applied + 1))
-done < <(find "$migrations_dir" -maxdepth 1 -type f -name '*.sql' | sort)
+done 3< <(find "$migrations_dir" -maxdepth 1 -type f -name "*.sql" | sort)
 
 echo ""
 echo "Done: ${applied} applied, ${skipped} skipped."
