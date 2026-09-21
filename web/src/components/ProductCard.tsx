@@ -11,6 +11,9 @@ import { useToast } from '../lib/toast.tsx';
 import { t } from '../lib/i18n.ts';
 import type { Product } from '../lib/types.ts';
 
+/** Shared grid for product cards: every card in a row stretches to the row height. */
+export const PRODUCT_GRID_CLASS = 'grid grid-cols-2 gap-space-sm items-stretch';
+
 /**
  * Unlike XUMO, a card can no longer add to cart directly: a product has
  * variants (colour/storage) with different price and stock, so "Savatga"
@@ -59,7 +62,7 @@ export function ProductCard({ product, onOpen }: { product: Product; onOpen: (pr
       role="button"
       tabIndex={0}
       aria-label={product.name}
-      className="flex flex-col text-left bg-surface-container rounded-xl overflow-hidden shadow-sm cursor-pointer p-space-xs"
+      className="flex flex-col h-full text-left bg-surface-container rounded-xl overflow-hidden shadow-sm cursor-pointer p-space-xs"
       onClick={() => onOpen(product)}
       onKeyDown={handleCardKeyDown}
     >
@@ -85,13 +88,13 @@ export function ProductCard({ product, onOpen }: { product: Product; onOpen: (pr
           </span>
         </button>
       </div>
-      <div className="flex flex-col gap-1 pt-space-sm px-1 pb-1">
+      <div className="flex flex-col flex-1 gap-1 pt-space-sm px-1 pb-1">
         <p className="text-label-sm font-label-sm text-primary-text uppercase tracking-wide truncate">{product.brand_name}</p>
         <p className="text-body-md font-body-md text-on-surface line-clamp-2">{product.name}</p>
         <PriceTag price={product.min_price} oldPrice={product.old_price} />
         <InstallmentLine price={product.min_price} />
         {outOfStock ? (
-          <span className="mt-1 h-11 flex items-center justify-center rounded-full bg-surface-container-high text-on-surface-variant text-label-lg font-label-lg">
+          <span className="mt-auto h-11 flex items-center justify-center rounded-full bg-surface-container-high text-on-surface-variant text-label-lg font-label-lg">
             {t('products.outOfStock')}
           </span>
         ) : (
@@ -101,7 +104,7 @@ export function ProductCard({ product, onOpen }: { product: Product; onOpen: (pr
               e.stopPropagation();
               onOpen(product);
             }}
-            className="mt-1 h-11 rounded-full bg-primary text-on-primary text-label-lg font-label-lg flex items-center justify-center gap-1"
+            className="mt-auto h-11 rounded-full bg-primary text-on-primary text-label-lg font-label-lg flex items-center justify-center gap-1"
           >
             <span className="material-symbols-outlined text-[18px]">shopping_bag</span>
             {t('products.addToCart')}

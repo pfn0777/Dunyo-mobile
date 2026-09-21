@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCategories, useProductsInfinite, useRegions } from '../lib/queries.ts';
-import { ProductCard } from '../components/ProductCard.tsx';
+import { ProductCard, PRODUCT_GRID_CLASS } from '../components/ProductCard.tsx';
 import { ProductSheet } from '../components/ProductSheet.tsx';
 import { RegionPicker } from '../components/RegionPicker.tsx';
 import { Logo } from '../components/Logo.tsx';
@@ -136,7 +136,7 @@ export function Home(): JSX.Element {
         <section className="w-full space-y-space-sm">
           <h3 className="font-headline-md text-headline-md text-on-surface">{t('home.trending')}</h3>
           {trendingQuery.isLoading ? (
-            <div className="grid grid-cols-2 gap-space-sm">
+            <div className={PRODUCT_GRID_CLASS}>
               {Array.from({ length: 4 }).map((_, i) => (
                 <Skeleton key={i} className="h-64" />
               ))}
@@ -144,7 +144,7 @@ export function Home(): JSX.Element {
           ) : trendingQuery.isError ? (
             <ErrorState onRetry={() => trendingQuery.refetch()} />
           ) : (
-            <div className="grid grid-cols-2 gap-space-sm">
+            <div className={PRODUCT_GRID_CLASS}>
               {trending.map((product) => (
                 <ProductCard key={product.id} product={product} onOpen={setOpenProduct} />
               ))}

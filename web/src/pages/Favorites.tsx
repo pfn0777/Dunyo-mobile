@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCategories, useFavorites } from '../lib/queries.ts';
-import { ProductCard } from '../components/ProductCard.tsx';
+import { ProductCard, PRODUCT_GRID_CLASS } from '../components/ProductCard.tsx';
 import { ProductSheet } from '../components/ProductSheet.tsx';
 import { ErrorState, Skeleton } from '../components/States.tsx';
 import { t } from '../lib/i18n.ts';
@@ -40,7 +40,7 @@ export function Favorites(): JSX.Element {
 
       <main className="px-margin pt-space-md">
         {isLoading ? (
-          <div className="grid grid-cols-2 gap-space-sm">
+          <div className={PRODUCT_GRID_CLASS}>
             {Array.from({ length: 4 }).map((_, i) => (
               <Skeleton key={i} className="h-64" />
             ))}
@@ -87,7 +87,7 @@ export function Favorites(): JSX.Element {
                   </button>
                 ))}
             </div>
-            <div className="grid grid-cols-2 gap-space-sm">
+            <div className={PRODUCT_GRID_CLASS}>
               {visible.map((product) => (
                 <ProductCard key={product.id} product={product} onOpen={setOpenProduct} />
               ))}
