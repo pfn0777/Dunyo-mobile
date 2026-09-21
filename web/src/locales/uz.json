@@ -123,6 +123,10 @@
   "profile.faq": "Savol-javob",
   "profile.admin": "Admin panel",
   "profile.version": "Ilova versiyasi",
+  "theme.title": "Mavzu",
+  "theme.light": "Yorug'",
+  "theme.dark": "Qora",
+  "theme.toggle": "Qora mavzu",
   "profile.noPhone": "Telefon ko'rsatilmagan",
   "profile.save": "Saqlash",
 

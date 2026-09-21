@@ -40,7 +40,7 @@ Hozir ilova faqat qora ("Dunyo Luxury Tech"). Stitch'da 5 ta Light ekran tayyor 
 - `web/src/App.tsx`: `/admin/*` o'rami `dark` scope qo'yadi.
 - Rasm/logo: `public/logo.webp` (oddiy gold kvadrat placeholder) ikkala temada ko'rinishi tekshiriladi. Loyihada inline `<svg>` yo'q, ammo Material Symbols va kelajakdagi SVG'lar uchun `fill`/`stroke` `currentColor` ga tayanishi shart.
 - DB: yo'q. Migration: yo'q. Config/env: yo'q.
-- Locale (`web/src/locales/uz.json`, tekis kalitlar): `theme.title`, `theme.light`, `theme.dark`, `theme.toggle_to_dark`, `theme.toggle_to_light`. Ichki (nested) JSON yo'q.
+- Locale (`web/src/locales/uz.json`, tekis kalitlar): `theme.title`, `theme.light`, `theme.dark`, `theme.toggle` (Home ikonkasining `aria-label`i, holat `aria-pressed` bilan; Profil qatori `role="switch"`). Ichki (nested) JSON yo'q.
 
 ## Qoidalar (logika — EARS uslubida)
 - QACHON ilova birinchi marta ochiladi VA `localStorage` da tema yo'q

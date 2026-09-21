@@ -5,6 +5,7 @@ import { ProductCard } from '../components/ProductCard.tsx';
 import { ProductSheet } from '../components/ProductSheet.tsx';
 import { RegionPicker } from '../components/RegionPicker.tsx';
 import { Logo } from '../components/Logo.tsx';
+import { ThemeToggle } from '../components/ThemeToggle.tsx';
 import { Skeleton, ErrorState } from '../components/States.tsx';
 import { config, mediaUrl } from '../lib/config.ts';
 import { openTelegramLink } from '../lib/telegram.ts';
@@ -49,6 +50,7 @@ export function Home(): JSX.Element {
               </span>
             </span>
           </div>
+          <ThemeToggle />
         </div>
         <button
           type="button"

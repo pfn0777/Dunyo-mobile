@@ -7,6 +7,7 @@ import { config } from '../lib/config.ts';
 import { openTelegramLink } from '../lib/telegram.ts';
 import { formatSom } from '../lib/format.ts';
 import { t } from '../lib/i18n.ts';
+import { useTheme } from '../lib/theme.ts';
 import pkg from '../../package.json';
 import { isTerminal } from '../../../shared/src/orderStatus.ts';
 
@@ -93,6 +94,7 @@ export function Profile(): JSX.Element {
         <nav className="bg-surface-container rounded-xl shadow-sm divide-y divide-outline-variant/30">
           <ProfileRow icon="receipt_long" label={t('profile.myOrders')} onClick={() => navigate('/profile/orders')} />
           <ProfileRow icon="location_on" label={t('profile.myAddresses')} onClick={() => navigate('/profile/addresses')} />
+          <ThemeRow />
           <ProfileRow icon="verified_user" label={t('profile.warranty')} onClick={() => setOpenFaq(2)} />
           <ProfileRow icon="support_agent" label={t('profile.support')} onClick={handleSupport} />
           {config.channelUsername.length > 0 && (
@@ -145,6 +147,24 @@ export function Profile(): JSX.Element {
         </div>
       )}
     </div>
+  );
+}
+
+function ThemeRow(): JSX.Element {
+  const { theme, toggle } = useTheme();
+  const isDark = theme === 'dark';
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={isDark}
+      onClick={toggle}
+      className="w-full flex items-center gap-space-md px-space-md min-h-[52px] text-left"
+    >
+      <span className="material-symbols-outlined text-[20px] text-on-surface-variant">{isDark ? 'dark_mode' : 'light_mode'}</span>
+      <span className="flex-1 text-body-md font-body-md text-on-surface">{t('theme.title')}</span>
+      <span className="text-body-sm font-body-sm text-on-surface-variant">{isDark ? t('theme.dark') : t('theme.light')}</span>
+    </button>
   );
 }
 
