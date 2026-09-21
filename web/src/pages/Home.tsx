@@ -44,7 +44,7 @@ export function Home(): JSX.Element {
           <div className="flex items-center gap-space-sm min-w-0">
             <Logo />
             <span className="flex items-center gap-1 min-w-0">
-              <span className="text-headline-md font-headline-md text-primary tracking-tight truncate">Dunyo Mobile</span>
+              <span className="text-headline-md font-headline-md text-primary-text tracking-tight truncate">Dunyo Mobile</span>
               <span className="material-symbols-outlined text-secondary text-[16px]" title="Rasmiy do'kon">
                 verified
               </span>
@@ -67,7 +67,7 @@ export function Home(): JSX.Element {
           onClick={() => navigate('/catalog')}
           className="flex items-center gap-space-sm bg-surface-container-high rounded-full px-space-md h-11 w-full text-left mt-space-sm shadow-md"
         >
-          <span className="material-symbols-outlined text-primary text-[20px]">search</span>
+          <span className="material-symbols-outlined text-primary-text text-[20px]">search</span>
           <span className="text-body-md font-body-md text-on-surface-variant">{t('home.searchPlaceholder')}</span>
         </button>
       </header>
@@ -75,7 +75,7 @@ export function Home(): JSX.Element {
       <main className="flex flex-col gap-space-xl pt-space-md px-margin">
         <section className="w-full">
           <div className="relative w-full rounded-xl overflow-hidden bg-gradient-to-br from-surface-container-highest via-surface-container to-surface-container-low p-space-md shadow-xl">
-            <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary/15 text-secondary mb-1">
+            <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-installment/15 text-installment-text mb-1">
               <span className="material-symbols-outlined text-[12px]">bolt</span>
               <span className="font-label-sm text-label-sm uppercase tracking-wider font-bold">{t('home.installmentBadge')}</span>
             </div>
@@ -97,7 +97,7 @@ export function Home(): JSX.Element {
         <section className="w-full space-y-space-sm">
           <div className="flex items-center justify-between">
             <h3 className="font-headline-md text-headline-md text-on-surface">{t('home.categories')}</h3>
-            <button type="button" onClick={() => navigate('/catalog')} className="font-label-sm text-label-sm text-primary flex items-center gap-0.5">
+            <button type="button" onClick={() => navigate('/catalog')} className="font-label-sm text-label-sm text-primary-text flex items-center gap-0.5">
               {t('home.seeAll')}
               <span className="material-symbols-outlined text-[14px]">chevron_right</span>
             </button>
@@ -117,7 +117,7 @@ export function Home(): JSX.Element {
                   onClick={() => navigate(`/products?category=${category.id}`)}
                   className="flex flex-col items-center gap-1.5 p-2 rounded-xl bg-surface-container text-center"
                 >
-                  <span className="w-11 h-11 rounded-full bg-primary/10 text-primary flex items-center justify-center overflow-hidden">
+                  <span className="w-11 h-11 rounded-full bg-primary/10 text-primary-text flex items-center justify-center overflow-hidden">
                     {category.image_path !== null ? (
                       <img src={mediaUrl(category.image_path) ?? undefined} alt="" loading="lazy" className="w-full h-full object-contain" />
                     ) : (
@@ -155,7 +155,7 @@ export function Home(): JSX.Element {
         <section className="w-full">
           <div className="rounded-xl bg-surface-container p-space-md flex flex-col gap-space-xs">
             <div className="flex items-center gap-space-sm">
-              <span className="material-symbols-outlined text-primary text-[24px]">verified</span>
+              <span className="material-symbols-outlined text-primary-text text-[24px]">verified</span>
               <h3 className="text-body-lg font-body-lg text-on-surface font-semibold">{t('home.guaranteeTitle')}</h3>
             </div>
             <p className="text-body-sm font-body-sm text-on-surface-variant">{t('home.guaranteeText')}</p>

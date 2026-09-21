@@ -34,7 +34,7 @@ export function OrderDetail(): JSX.Element {
                   : t('checkout.pickup')}
               </p>
               {order.payment_method === 'installment_request' && order.installment_months !== null && (
-                <p className="text-body-sm font-body-sm text-secondary mt-1">
+                <p className="text-body-sm font-body-sm text-installment-text mt-1">
                   {t('installment.requestNote', { months: order.installment_months })}
                 </p>
               )}

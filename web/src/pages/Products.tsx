@@ -102,7 +102,7 @@ export function Products(): JSX.Element {
     <div className="flex flex-col min-h-screen pb-40">
       <header className="sticky top-0 z-30 bg-surface/90 backdrop-blur-xl pt-safe px-margin pb-space-sm shadow-sm flex flex-col gap-space-sm">
         <div className="flex items-center gap-space-sm bg-surface-container-high rounded-full px-space-md h-11">
-          <span className="material-symbols-outlined text-primary text-[20px]">search</span>
+          <span className="material-symbols-outlined text-primary-text text-[20px]">search</span>
           <input
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
@@ -144,7 +144,7 @@ export function Products(): JSX.Element {
               type="button"
               onClick={() => setCategoryFilter(null)}
               className={`flex-shrink-0 px-3.5 py-1.5 rounded-full text-label-sm font-label-sm ${
-                categoryId === null ? 'text-primary underline' : 'text-on-surface-variant'
+                categoryId === null ? 'text-primary-text underline' : 'text-on-surface-variant'
               }`}
             >
               {t('home.filterAll')}
@@ -155,7 +155,7 @@ export function Products(): JSX.Element {
                 type="button"
                 onClick={() => setCategoryFilter(category.id)}
                 className={`flex-shrink-0 px-3.5 py-1.5 rounded-full text-label-sm font-label-sm ${
-                  categoryId === String(category.id) ? 'text-primary underline' : 'text-on-surface-variant'
+                  categoryId === String(category.id) ? 'text-primary-text underline' : 'text-on-surface-variant'
                 }`}
               >
                 {category.name}
@@ -169,7 +169,7 @@ export function Products(): JSX.Element {
           <button
             type="button"
             onClick={() => setSortOpen(true)}
-            className="flex items-center gap-1 text-label-lg font-label-lg text-primary min-h-[44px]"
+            className="flex items-center gap-1 text-label-lg font-label-lg text-primary-text min-h-[44px]"
           >
             <span className="material-symbols-outlined text-[18px]">sort</span>
             {SORT_LABELS[sort]}
@@ -212,7 +212,7 @@ export function Products(): JSX.Element {
                   type="button"
                   onClick={() => setSort(option)}
                   className={`text-left min-h-[44px] px-space-sm rounded-xl text-body-lg font-body-lg ${
-                    sort === option ? 'text-primary font-semibold' : 'text-on-surface'
+                    sort === option ? 'text-primary-text font-semibold' : 'text-on-surface'
                   }`}
                 >
                   {SORT_LABELS[option]}

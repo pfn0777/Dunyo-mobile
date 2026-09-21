@@ -173,7 +173,7 @@ export function Cart(): JSX.Element {
                   <span>{formatSom(totals.grandTotal)}</span>
                 </div>
                 {installmentEstimate !== null && (
-                  <p className="text-label-md font-label-md text-secondary">
+                  <p className="text-label-md font-label-md text-installment-text">
                     {t('installment.orMonthly', { amount: formatSom(installmentEstimate), months: settings?.installment_months ?? 12 })}
                   </p>
                 )}

@@ -280,7 +280,7 @@ export function Checkout(): JSX.Element {
                   <button
                     type="button"
                     onClick={() => void handleSendLocation()}
-                    className="self-start flex items-center gap-1 text-label-lg font-label-lg text-primary min-h-[44px]"
+                    className="self-start flex items-center gap-1 text-label-lg font-label-lg text-primary-text min-h-[44px]"
                   >
                     <span className="material-symbols-outlined text-[18px]">location_on</span>
                     {t('checkout.sendLocation')}
@@ -311,7 +311,7 @@ export function Checkout(): JSX.Element {
               <button
                 type="button"
                 onClick={() => void handleShareContact()}
-                className="self-start flex items-center gap-1 text-label-lg font-label-lg text-primary min-h-[44px]"
+                className="self-start flex items-center gap-1 text-label-lg font-label-lg text-primary-text min-h-[44px]"
               >
                 <span className="material-symbols-outlined text-[18px]">call</span>
                 {t('checkout.sharePhone')}

@@ -17,7 +17,7 @@ export function OrderSuccess(): JSX.Element {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-margin text-center gap-space-md">
-      <span className="material-symbols-outlined text-[56px] text-primary">check_circle</span>
+      <span className="material-symbols-outlined text-[56px] text-primary-text">check_circle</span>
       <h1 className="text-headline-xl font-headline-xl text-on-surface">{t('orderSuccess.title')}</h1>
       {isLoading ? (
         <Skeleton className="w-40 h-6" />
@@ -30,7 +30,7 @@ export function OrderSuccess(): JSX.Element {
             {t('orderSuccess.status')}: <span className="text-on-surface">{t(`status.${order.status}`)}</span>
           </p>
           {order.payment_method === 'installment_request' && (
-            <p className="text-body-sm font-body-sm text-secondary mt-1">{t('orderSuccess.installmentNote')}</p>
+            <p className="text-body-sm font-body-sm text-installment-text mt-1">{t('orderSuccess.installmentNote')}</p>
           )}
         </div>
       ) : null}

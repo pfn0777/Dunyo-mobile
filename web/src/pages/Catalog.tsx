@@ -52,7 +52,7 @@ export function Catalog(): JSX.Element {
               </span>
               <span className="text-body-lg font-body-lg text-on-surface leading-tight pr-6">{t('catalog.discountEntry')}</span>
               <span className="mt-2 w-full aspect-square flex items-center justify-center">
-                <span className="material-symbols-outlined text-primary text-[28px]">sell</span>
+                <span className="material-symbols-outlined text-primary-text text-[28px]">sell</span>
               </span>
             </button>
             {(categories ?? []).map((category) => (
@@ -67,7 +67,7 @@ export function Catalog(): JSX.Element {
                   {category.image_path !== null ? (
                     <img src={mediaUrl(category.image_path) ?? undefined} alt="" loading="lazy" className="w-full h-full object-contain rounded-xl" />
                   ) : (
-                    <span className="material-symbols-outlined text-primary text-[28px]">{category.icon ?? 'smartphone'}</span>
+                    <span className="material-symbols-outlined text-primary-text text-[28px]">{category.icon ?? 'smartphone'}</span>
                   )}
                 </span>
               </button>

@@ -69,7 +69,7 @@ export function Profile(): JSX.Element {
               setFirstName(me?.first_name ?? '');
               setEditOpen(true);
             }}
-            className="text-label-lg font-label-lg text-primary min-h-[44px]"
+            className="text-label-lg font-label-lg text-primary-text min-h-[44px]"
           >
             {t('profile.edit')}
           </button>
@@ -81,7 +81,7 @@ export function Profile(): JSX.Element {
             onClick={() => navigate(`/profile/orders/${activeOrder.id}`)}
             className="bg-primary/10 rounded-xl p-space-md text-left"
           >
-            <p className="text-label-sm font-label-sm text-primary mb-1">{t('profile.activeOrder')}</p>
+            <p className="text-label-sm font-label-sm text-primary-text mb-1">{t('profile.activeOrder')}</p>
             <p className="text-body-md font-body-md text-on-surface">
               {activeOrder.order_no} · {t(`status.${activeOrder.status}`)} · {formatSom(activeOrder.grand_total)}
             </p>

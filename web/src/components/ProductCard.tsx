@@ -78,15 +78,15 @@ export function ProductCard({ product, onOpen }: { product: Product; onOpen: (pr
           type="button"
           aria-label={isFavorite ? "Sevimlilardan olib tashlash" : "Sevimlilarga qo'shish"}
           onClick={handleToggleFavorite}
-          className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center rounded-full bg-black/40"
+          className="absolute top-2 right-2 w-8 h-8 flex items-center justify-center rounded-full bg-surface/85 dark:bg-black/40"
         >
-          <span className={`material-symbols-outlined text-[18px] ${isFavorite ? 'text-error' : 'text-white'}`}>
+          <span className={`material-symbols-outlined text-[18px] ${isFavorite ? 'text-error' : 'text-on-surface dark:text-white'}`}>
             {isFavorite ? 'favorite' : 'favorite_border'}
           </span>
         </button>
       </div>
       <div className="flex flex-col gap-1 pt-space-sm px-1 pb-1">
-        <p className="text-label-sm font-label-sm text-primary uppercase tracking-wide truncate">{product.brand_name}</p>
+        <p className="text-label-sm font-label-sm text-primary-text uppercase tracking-wide truncate">{product.brand_name}</p>
         <p className="text-body-md font-body-md text-on-surface line-clamp-2">{product.name}</p>
         <PriceTag price={product.min_price} oldPrice={product.old_price} />
         <InstallmentLine price={product.min_price} />

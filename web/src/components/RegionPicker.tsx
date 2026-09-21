@@ -22,7 +22,7 @@ export function RegionPicker({ open, onClose }: { open: boolean; onClose: () => 
                 onClose();
               }}
               className={`text-left min-h-[48px] px-space-sm rounded-xl flex items-center justify-between ${
-                selectedId === region.id ? 'text-primary' : 'text-on-surface'
+                selectedId === region.id ? 'text-primary-text' : 'text-on-surface'
               }`}
             >
               <span className="text-body-lg font-body-lg">{region.name}</span>

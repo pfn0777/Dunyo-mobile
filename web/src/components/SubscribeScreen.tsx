@@ -35,7 +35,7 @@ export function SubscribeScreen({ channelUsername }: { channelUsername: string |
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-margin text-center gap-space-md bg-surface">
-      <span className="material-symbols-outlined text-[48px] text-primary">campaign</span>
+      <span className="material-symbols-outlined text-[48px] text-primary-text">campaign</span>
       <p className="text-headline-md font-headline-md text-on-surface">{t('subscribe.title')}</p>
       <p className="text-body-md font-body-md text-on-surface-variant">{t('subscribe.text')}</p>
       {channelUsername !== null && (

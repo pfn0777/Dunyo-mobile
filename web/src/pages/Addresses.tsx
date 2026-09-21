@@ -58,14 +58,14 @@ export function Addresses(): JSX.Element {
             <div key={address.id} className="bg-surface-container rounded-xl p-space-md shadow-sm flex items-center justify-between gap-space-sm">
               <div className="min-w-0">
                 <p className="text-body-md font-body-md text-on-surface truncate">{address.text}</p>
-                {address.is_default && <span className="text-label-sm font-label-sm text-primary">{t('addresses.default')}</span>}
+                {address.is_default && <span className="text-label-sm font-label-sm text-primary-text">{t('addresses.default')}</span>}
               </div>
               <div className="flex items-center gap-space-sm flex-shrink-0">
                 {!address.is_default && (
                   <button
                     type="button"
                     onClick={() => void handleSetDefault(address.id, address.text, address.region_id)}
-                    className="text-label-sm font-label-sm text-primary min-h-[44px]"
+                    className="text-label-sm font-label-sm text-primary-text min-h-[44px]"
                   >
                     {t('addresses.setDefault')}
                   </button>

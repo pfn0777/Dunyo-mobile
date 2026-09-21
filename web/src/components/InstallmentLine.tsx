@@ -20,7 +20,7 @@ export function InstallmentLine({ price, className = '' }: { price: number; clas
   }
   return (
     <div className={`flex items-center gap-1 flex-wrap ${className}`}>
-      <span className="px-1.5 py-0.5 rounded bg-secondary/15 text-secondary font-price-badge text-price-badge uppercase tracking-wide">
+      <span className="px-1.5 py-0.5 rounded bg-installment/15 text-installment-text font-price-badge text-price-badge uppercase tracking-wide">
         0-0-{decision.months}
       </span>
       <span className="text-label-md font-label-md text-on-surface-variant">

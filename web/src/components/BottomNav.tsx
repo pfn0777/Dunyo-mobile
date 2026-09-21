@@ -30,7 +30,7 @@ export function BottomNav(): JSX.Element {
             aria-label={item.label}
             className={({ isActive }) =>
               `relative flex flex-col items-center justify-center gap-0.5 flex-1 min-h-[56px] min-w-[44px] text-label-sm font-label-sm ${
-                isActive ? 'text-primary' : 'text-on-surface-variant'
+                isActive ? 'text-primary-text' : 'text-on-surface-variant'
               }`
             }
           >

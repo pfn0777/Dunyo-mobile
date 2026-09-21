@@ -120,7 +120,7 @@ export function ProductSheet({ product, onClose }: { product: Product; onClose: 
           <ImagePlaceholder icon={product.category_icon ?? DEFAULT_CATEGORY_ICON} className="w-full max-h-[38vh] aspect-square rounded-2xl mb-space-md" />
         )}
 
-        <p className="text-label-sm font-label-sm text-primary uppercase tracking-wide">{product.brand_name}</p>
+        <p className="text-label-sm font-label-sm text-primary-text uppercase tracking-wide">{product.brand_name}</p>
         <p className="text-headline-md font-headline-md text-on-surface mb-space-sm">{product.name}</p>
 
         {isLoading || selectedVariant === null ? (
