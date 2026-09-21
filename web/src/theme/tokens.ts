@@ -62,6 +62,9 @@ export const darkTokens = {
   'installment-text': '#43ffbb',
   // Gold used as *text* (light `primary` is too pale on white to be AA).
   'primary-text': '#ffd682',
+  // Loading skeletons and missing-image tiles: must stand out from both the page
+  // and the (white, in light) cards they sit on. Dark keeps today's surface-container.
+  skeleton: '#1f1f23',
 } as const;
 
 export type TokenName = keyof typeof darkTokens;
@@ -123,6 +126,8 @@ export const lightTokens: Record<TokenName, string> = {
   'installment-text': '#047857',
   // Darkest gold that stays close to the brand `primary`: 5.26:1 on #f8f9fa.
   'primary-text': '#8a6100',
+  // Light: surface-container is white, identical to a card, so it would vanish.
+  skeleton: '#e1e3e4',
 };
 
 export const THEME_NAMES = ['light', 'dark'] as const;

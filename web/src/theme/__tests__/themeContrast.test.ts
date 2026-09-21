@@ -34,6 +34,17 @@ const UI_ON_SURFACE: TokenName[] = ['primary', 'installment', 'outline'];
 describe.each(THEME_NAMES)('%s theme contrast (WCAG AA)', (theme) => {
   const tokens = tokensFor(theme);
 
+  // Skeletons/placeholder tiles are decorative, but must not disappear into the
+  // page or a card. Dark deliberately keeps the original skeleton == card colour
+  // (unchanged look), so the card check is light-only.
+  const skeletonBackgrounds = theme === 'light' ? (['surface', 'surface-container'] as const) : (['surface'] as const);
+  for (const bg of skeletonBackgrounds) {
+    it(`skeleton is distinguishable from ${bg} (>= 1.1)`, () => {
+      const ratio = contrastRatio(tokens.skeleton, tokens[bg]);
+      expect(ratio, `skeleton ${tokens.skeleton} on ${bg} ${tokens[bg]} = ${ratio.toFixed(2)}`).toBeGreaterThanOrEqual(1.1);
+    });
+  }
+
   for (const bg of TEXT_BACKGROUNDS) {
     for (const fg of TEXT_FOREGROUNDS) {
       it(`text ${fg} on ${bg} >= ${WCAG_AA_TEXT}`, () => {

@@ -1,7 +1,7 @@
 import { t } from '../lib/i18n.ts';
 
 export function Skeleton({ className = '' }: { className?: string }): JSX.Element {
-  return <div className={`animate-pulse bg-surface-container rounded-xl ${className}`} />;
+  return <div className={`animate-pulse bg-skeleton rounded-xl ${className}`} />;
 }
 
 export function ErrorState({ message, onRetry }: { message?: string; onRetry: () => void }): JSX.Element {

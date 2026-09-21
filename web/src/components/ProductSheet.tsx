@@ -146,7 +146,7 @@ export function ProductSheet({ product, onClose }: { product: Product; onClose: 
                       }`}
                     >
                       <span
-                        className="w-6 h-6 rounded-full border border-outline-variant"
+                        className="w-6 h-6 rounded-full border border-outline/70 dark:border-outline-variant"
                         style={{ backgroundColor: c.hex ?? '#888888' }}
                       />
                     </button>
