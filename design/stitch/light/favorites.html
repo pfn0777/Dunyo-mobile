@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+
+<html lang="uz"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><title>Dunyo Mobile - Sevimlilar</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "background": "#f8f9fa",
+          "surface-container-highest": "#e1e3e4",
+          "on-tertiary-container": "#fffbff",
+          "on-tertiary-fixed": "#271900",
+          "surface-tint": "#7e5700",
+          "surface-container-low": "#f3f4f5",
+          "secondary-fixed-dim": "#c0c6db",
+          "on-background": "#191c1d",
+          "primary-fixed": "#ffdeac",
+          "inverse-primary": "#f7bd56",
+          "primary-container": "#9a6c01",
+          "surface-container-lowest": "#ffffff",
+          "surface-bright": "#f8f9fa",
+          "error": "#ba1a1a",
+          "on-surface-variant": "#4f4536",
+          "surface-dim": "#d9dadb",
+          "primary-fixed-dim": "#f7bd56",
+          "surface-variant": "#e1e3e4",
+          "on-secondary-fixed": "#141b2b",
+          "on-primary-fixed-variant": "#5f4100",
+          "on-secondary-container": "#5c6274",
+          "tertiary-fixed-dim": "#f5be4f",
+          "secondary": "#575e70",
+          "on-primary-container": "#fffbff",
+          "on-secondary": "#ffffff",
+          "secondary-fixed": "#dce2f7",
+          "on-surface": "#191c1d",
+          "on-secondary-fixed-variant": "#404758",
+          "primary": "#7b5500",
+          "error-container": "#ffdad6",
+          "inverse-surface": "#2e3132",
+          "surface-container-high": "#e7e8e9",
+          "on-primary-fixed": "#281900",
+          "tertiary": "#795600",
+          "outline-variant": "#d4c4b0",
+          "on-error": "#ffffff",
+          "on-tertiary-fixed-variant": "#5e4200",
+          "surface": "#f8f9fa",
+          "outline": "#827564",
+          "tertiary-container": "#986d00",
+          "on-error-container": "#93000a",
+          "surface-container": "#edeeef",
+          "inverse-on-surface": "#f0f1f2",
+          "on-tertiary": "#ffffff",
+          "on-primary": "#ffffff",
+          "secondary-container": "#d9dff5",
+          "tertiary-fixed": "#ffdea7"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-sm": "0.5rem",
+          "space-md": "1rem",
+          "space-xl": "2rem",
+          "margin": "1rem",
+          "space-xs": "0.25rem",
+          "gutter": "0.75rem",
+          "space-lg": "1.5rem"
+        },
+        "fontFamily": {
+          "headline-xl-mobile": ["Outfit"],
+          "body-sm": ["Plus Jakarta Sans"],
+          "label-lg": ["Plus Jakarta Sans"],
+          "body-lg": ["Plus Jakarta Sans"],
+          "headline-lg-mobile": ["Outfit"],
+          "headline-md": ["Outfit"],
+          "label-md": ["Plus Jakarta Sans"],
+          "body-md": ["Plus Jakarta Sans"],
+          "label-sm": ["Plus Jakarta Sans"],
+          "headline-xl": ["Outfit"],
+          "headline-lg": ["Outfit"]
+        },
+        "fontSize": {
+          "headline-xl-mobile": ["30px", { "lineHeight": "38px", "fontWeight": "600" }],
+          "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+          "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+          "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+          "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+          "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "500" }],
+          "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+          "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+          "label-sm": ["10px", { "lineHeight": "14px", "fontWeight": "600" }],
+          "headline-xl": ["40px", { "lineHeight": "48px", "fontWeight": "600" }],
+          "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }]
+        }
+      }
+    }
+  }
+</script><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#f8f9fa;color:#191c1d;-webkit-tap-highlight-color:transparent;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-[#f8f9fa] font-body-md text-body-md text-on-surface min-h-screen flex flex-col selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 w-full z-50 pt-safe bg-white/90 backdrop-blur-xl border-b border-gray-200/80 shadow-sm"><div class="h-24 px-margin flex flex-col justify-center gap-space-xs"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm"><img alt="Dunyo Mobile Logo" class="h-8 w-8 rounded-full object-cover shadow-sm ring-1 ring-amber-200/50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiSXq-mA4vnrSjEXrgQ6T8lgqA4hki9tBZztOacjciW4zGxhyRiuLJ1zuZzSYAlADIIV5OmgG52-c5aIME6rapfxQVGETmDrQKpqZm62ZkBbY8UtA0yrguPQlUTOmtzPfpsgWElAX0Y33mudcbjmGaeMibBqVTcS8cHuSolEW_Jg8WjqzzXqBlV5kO-rPVJWb5sPlMSHFmGPexDGetCweqa92DimXpfD8UuCyUMHUHQRA-nBpMQCWpZlNHwPWLUCDQDg"/><div class="flex items-center gap-1"><span class="font-headline-md text-[18px] font-bold text-amber-900 tracking-tight">Dunyo Mobile</span><span class="material-symbols-outlined text-emerald-600 text-[16px]" title="Verified Official Store">verified</span></div></div><div class="flex items-center gap-space-xs"><button aria-label="Tilni tanlash" class="h-9 px-2.5 flex items-center gap-1 rounded-full bg-stone-100 text-stone-700 hover:text-amber-800 transition-colors border border-stone-200" type="button"><span class="material-symbols-outlined text-[16px] text-amber-700">language</span><span class="font-label-sm text-label-sm uppercase tracking-wider text-amber-900 font-bold">UZ</span></button><button aria-label="Telegram sozlamalari" class="w-9 h-9 flex items-center justify-center rounded-full text-stone-600 hover:text-stone-900 hover:bg-stone-100 transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">more_vert</span></button><button aria-label="Yopish" class="w-9 h-9 flex items-center justify-center rounded-full text-stone-600 hover:text-stone-900 hover:bg-stone-100 transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">close</span></button><div class="w-8 h-8 rounded-full bg-amber-700 flex items-center justify-center ml-0.5 shadow-sm"><span class="material-symbols-outlined text-white text-[18px]">person</span></div></div></div><div class="flex items-center justify-between"><button class="flex items-center gap-1.5 text-stone-600 hover:text-stone-900 transition-colors py-0.5" type="button"><span class="material-symbols-outlined text-[15px] text-emerald-600">location_on</span><span class="font-body-sm text-body-sm text-stone-500">Yetkazish:</span><span class="font-label-md text-label-md text-stone-800 font-semibold">Toshkent shahri</span><span class="material-symbols-outlined text-[14px] text-stone-400">keyboard_arrow_down</span></button><span class="font-label-sm text-[11px] text-amber-800 font-semibold tracking-wider uppercase bg-amber-50 px-2 py-0.5 rounded border border-amber-200/60">Sevimlilar</span></div></div></header><main class="flex-1 flex flex-col relative w-full pt-24 pb-28 bg-[#f8f9fa]"><div class="flex flex-col w-full">
+<!-- Dynamic Notification Pill / Alert -->
+<div class="fixed top-24 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 pointer-events-none opacity-0 translate-y-[-10px]" id="toastNotification">
+<div class="bg-stone-900/90 text-white backdrop-blur-md px-margin py-space-sm rounded-full shadow-xl flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-emerald-400 text-[20px]">check_circle</span>
+<span class="font-body-sm text-body-sm font-medium" id="toastMessage">Amal bajarildi</span>
+</div>
+</div>
+<div class="px-margin pt-space-md pb-space-lg flex flex-col gap-space-lg">
+<!-- Header Title & Quick Count -->
+<div class="flex items-center justify-between">
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-amber-700 text-[24px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-stone-900 tracking-tight">Sevimlilar</h1>
+</div>
+<p class="font-body-sm text-body-sm text-stone-500 mt-0.5">Siz saqlagan sara flagman qurilmalar</p>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="px-space-md py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 font-label-md text-[11px] font-bold shadow-sm">
+<span id="fav-count">6</span> TA MAHSULOT
+        </span>
+</div>
+</div>
+<!-- Search In Wishlist -->
+<div class="relative w-full">
+<div class="flex items-center bg-white rounded-full px-space-md py-2.5 shadow-sm border border-stone-200/80 focus-within:border-amber-600 transition-colors">
+<span class="material-symbols-outlined text-amber-700 text-[20px] mr-space-sm">search</span>
+<input class="bg-transparent text-stone-800 placeholder:text-stone-400 font-body-md text-body-md w-full focus:outline-none" id="wishlistSearch" placeholder="Sevimlilar ichidan qidirish..." type="text"/>
+<button aria-label="Tozalash" class="hidden text-stone-400 hover:text-stone-700 transition-colors p-1" id="clearSearchBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">cancel</span>
+</button>
+</div>
+</div>
+<!-- Telegram Price Tracking Alert Switcher Card -->
+<div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-emerald-50/70 via-white to-amber-50/50 p-space-md shadow-sm border border-emerald-200/60">
+<div class="absolute -right-6 -bottom-6 w-28 h-28 rounded-full bg-amber-200/30 blur-2xl pointer-events-none"></div>
+<div class="relative z-10 flex items-start justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-10 h-10 rounded-xl bg-emerald-100/70 flex items-center justify-center text-emerald-700 shrink-0 border border-emerald-200">
+<span class="material-symbols-outlined text-[22px]">notifications_active</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-lg text-label-lg text-stone-900 font-bold">Narx tushishi xabari</span>
+<span class="font-label-sm text-label-sm px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-bold tracking-wide">AVTO</span>
+</div>
+<p class="font-body-sm text-body-sm text-stone-600 mt-0.5 leading-tight">
+              Aksiya yoki chegirma boshlansa, Telegram botingizga tezkor bildirishnoma yuboramiz.
+            </p>
+</div>
+</div>
+<label aria-label="Telegram bildirishnomasi" class="relative inline-flex items-center cursor-pointer shrink-0 mt-0.5">
+<input checked="" class="sr-only peer" id="tgAlertToggle" type="checkbox"/>
+<div class="w-11 h-6 bg-stone-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+</label>
+</div>
+</div>
+<!-- Category Filter Tabs -->
+<div class="flex items-center gap-space-xs overflow-x-auto no-scrollbar py-0.5 -mx-margin px-margin">
+<button class="filter-tab shrink-0 px-4 py-2 rounded-full font-label-md text-label-md bg-amber-800 text-white font-semibold shadow-sm transition-all duration-200" data-filter="all" type="button">
+        Barchasi <span class="ml-1 opacity-90">(6)</span>
+</button>
+<button class="filter-tab shrink-0 px-4 py-2 rounded-full font-label-md text-label-md bg-white border border-stone-200 text-stone-600 hover:text-stone-900 hover:border-stone-300 shadow-sm transition-all duration-200" data-filter="smartphones" type="button">
+        Smartfonlar <span class="ml-1 opacity-70">(4)</span>
+</button>
+<button class="filter-tab shrink-0 px-4 py-2 rounded-full font-label-md text-label-md bg-white border border-stone-200 text-stone-600 hover:text-stone-900 hover:border-stone-300 shadow-sm transition-all duration-200" data-filter="accessories" type="button">
+        Aksessuarlar <span class="ml-1 opacity-70">(2)</span>
+</button>
+</div>
+<!-- Products Grid (2 Columns) -->
+<div class="grid grid-cols-2 gap-gutter" id="productsGrid">
+<!-- Item 1: iPhone 16 Pro -->
+<div class="product-card flex flex-col justify-between bg-white rounded-xl p-3 shadow-sm border border-stone-200 hover:shadow-md transition-all duration-200" data-category="smartphones" data-name="iPhone 16 Pro Desert Titanium">
+<div>
+<!-- Badges & Heart -->
+<div class="flex items-start justify-between gap-1 mb-space-xs relative z-10">
+<span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-label-sm text-label-sm font-bold border border-amber-200/70">Top Sotuv</span>
+<button aria-label="O'chirish" class="fav-toggle w-8 h-8 rounded-full bg-rose-50 border border-rose-200/80 flex items-center justify-center text-rose-600 hover:bg-rose-100 shadow-sm hover:scale-105 active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<!-- Product Image Container -->
+<div class="relative w-full h-32 rounded-lg bg-stone-50 border border-stone-100 overflow-hidden flex items-center justify-center mb-space-sm">
+<img class="w-full h-full object-contain p-2" data-alt="Apple iPhone 16 Pro Desert Titanium luxury smartphone with sleek reflective titanium frame resting on dark black textured podium subtle warm golden ambient glow studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpbbsl0GLkpw7uyJ6kevl0zR9GbtpkIdUZlubj0TN5l-uVVgkARDleZuh7xZceYJR1hiNww_Rd2S8j-GO8lvEDId0fZVnYQxdGtXNcNpHRkAKjjp6NGQViAvuPUp-wNM0BskpamFTThf-wMCYe0z_CuLj2DqUOx-_ResrgXiqb68BPnTfusshazfgrYHvfUS30a5QGrdAiRSeYymw-oidk4jIGLxq0JqQkpBST8t3ntSIfGChrUyb2"/>
+</div>
+<!-- Titles -->
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-amber-800 font-bold uppercase tracking-wider block">Apple</span>
+<h3 class="font-headline-md text-[14px] leading-[18px] text-stone-900 font-bold line-clamp-2 mt-0.5">iPhone 16 Pro 256GB Desert Titanium</h3>
+</div>
+</div>
+<!-- Pricing & Action -->
+<div class="mt-space-md pt-space-xs">
+<div class="inline-block px-1.5 py-0.5 rounded bg-emerald-50 border border-emerald-200/80 mb-1">
+<span class="font-label-sm text-label-sm text-emerald-800 font-bold">0-0-12 muddatli to'lov</span>
+</div>
+<div class="font-headline-md text-emerald-700 text-[15px] leading-tight font-bold">1 287 500 so'm<span class="font-label-sm text-[10px] text-emerald-800/70 font-normal">/oy</span></div>
+<div class="font-body-sm text-body-sm text-stone-400 line-through text-[11px] mt-0.5">16 200 000</div>
+<div class="font-headline-md text-stone-900 text-[14px] font-bold">15 450 000 so'm</div>
+<!-- Add to Cart CTA -->
+<button class="btn-add-cart w-full mt-space-sm py-2 px-space-xs rounded-lg bg-amber-700 hover:bg-amber-800 text-white font-label-md text-label-md font-bold flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">shopping_bag</span>
+<span>Savatga</span>
+</button>
+</div>
+</div>
+<!-- Item 2: Samsung S24 Ultra -->
+<div class="product-card flex flex-col justify-between bg-white rounded-xl p-3 shadow-sm border border-stone-200 hover:shadow-md transition-all duration-200" data-category="smartphones" data-name="Samsung Galaxy S24 Ultra Titanium Gray">
+<div>
+<div class="flex items-start justify-between gap-1 mb-space-xs relative z-10">
+<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 font-label-sm text-label-sm font-bold border border-emerald-200/70">Flagman</span>
+<button aria-label="O'chirish" class="fav-toggle w-8 h-8 rounded-full bg-rose-50 border border-rose-200/80 flex items-center justify-center text-rose-600 hover:bg-rose-100 shadow-sm hover:scale-105 active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="relative w-full h-32 rounded-lg bg-stone-50 border border-stone-100 overflow-hidden flex items-center justify-center mb-space-sm">
+<img class="w-full h-full object-contain p-2" data-alt="Samsung Galaxy S24 Ultra Titanium Gray smartphone with integrated S-Pen stylus sleek matte glass finish ultra premium electronics photography dark atmospheric setup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDs4XgWXkE2ee82BsKTuCqODuMuaTi-xYJYqkuwn-0t2ijvymmDjOXb4zi5MFuus5RTd7_aaugkMNoscH2k6p84QwhYSilOKJV8u0nwTE1wgRV92FlCa-qj7ctehWrwzKc0YARpAy9Lg2LnkOvd3rQZEHNN0CpNLTSVlhD9hqau8aFWyxeeXtsQZ9sKv24QvUYXP7mqz1j11-HEJKfO4tpZ7X2kRkNzMBixDHlufSVvu2mR11QTvGXD"/>
+</div>
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-emerald-800 font-bold uppercase tracking-wider block">Samsung</span>
+<h3 class="font-headline-md text-[14px] leading-[18px] text-stone-900 font-bold line-clamp-2 mt-0.5">Galaxy S24 Ultra 256GB Gray</h3>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs">
+<div class="inline-block px-1.5 py-0.5 rounded bg-emerald-50 border border-emerald-200/80 mb-1">
+<span class="font-label-sm text-label-sm text-emerald-800 font-bold">0-0-12 muddatli to'lov</span>
+</div>
+<div class="font-headline-md text-emerald-700 text-[15px] leading-tight font-bold">1 183 000 so'm<span class="font-label-sm text-[10px] text-emerald-800/70 font-normal">/oy</span></div>
+<div class="font-body-sm text-body-sm text-stone-400 line-through text-[11px] mt-0.5">15 100 000</div>
+<div class="font-headline-md text-stone-900 text-[14px] font-bold">14 200 000 so'm</div>
+<button class="btn-add-cart w-full mt-space-sm py-2 px-space-xs rounded-lg bg-amber-700 hover:bg-amber-800 text-white font-label-md text-label-md font-bold flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">shopping_bag</span>
+<span>Savatga</span>
+</button>
+</div>
+</div>
+<!-- Item 3: iPhone 15 -->
+<div class="product-card flex flex-col justify-between bg-white rounded-xl p-3 shadow-sm border border-stone-200 hover:shadow-md transition-all duration-200" data-category="smartphones" data-name="Apple iPhone 15 Black">
+<div>
+<div class="flex items-start justify-between gap-1 mb-space-xs relative z-10">
+<span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-label-sm text-label-sm font-bold border border-amber-200/70">Xit Narx</span>
+<button aria-label="O'chirish" class="fav-toggle w-8 h-8 rounded-full bg-rose-50 border border-rose-200/80 flex items-center justify-center text-rose-600 hover:bg-rose-100 shadow-sm hover:scale-105 active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="relative w-full h-32 rounded-lg bg-stone-50 border border-stone-100 overflow-hidden flex items-center justify-center mb-space-sm">
+<img class="w-full h-full object-contain p-2" data-alt="Apple iPhone 15 matte black colorway smooth back camera island aluminum chassis high contrast dramatic soft spotlighting luxury studio dark noir style" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrzVPtY3y10uF60emYoVOOd9frJu12D0unKbVPoJvFWcDZw6XDIIEwElACptDxl_XqGHDYmIj_2mPj7kptiaaU_FL0xQ-zi99gvFejZjakHzpemuIeietyUv2X0qn9s67uVOjDVED-ndiLnX0mJWIL9jANY_6zaRltWYhvQ81NZHNe0RyI_kZT4qNr2D9YY7nGZ-o1i8gXpQgpXyITlnRWA2kUTqEWmr3zloZuKo6yujLCWf6Cx_ox"/>
+</div>
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-amber-800 font-bold uppercase tracking-wider block">Apple</span>
+<h3 class="font-headline-md text-[14px] leading-[18px] text-stone-900 font-bold line-clamp-2 mt-0.5">iPhone 15 128GB Black Edition</h3>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs">
+<div class="inline-block px-1.5 py-0.5 rounded bg-emerald-50 border border-emerald-200/80 mb-1">
+<span class="font-label-sm text-label-sm text-emerald-800 font-bold">0-0-12 muddatli to'lov</span>
+</div>
+<div class="font-headline-md text-emerald-700 text-[15px] leading-tight font-bold">820 800 so'm<span class="font-label-sm text-[10px] text-emerald-800/70 font-normal">/oy</span></div>
+<div class="font-body-sm text-body-sm text-stone-400 line-through text-[11px] mt-0.5">10 400 000</div>
+<div class="font-headline-md text-stone-900 text-[14px] font-bold">9 850 000 so'm</div>
+<button class="btn-add-cart w-full mt-space-sm py-2 px-space-xs rounded-lg bg-amber-700 hover:bg-amber-800 text-white font-label-md text-label-md font-bold flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">shopping_bag</span>
+<span>Savatga</span>
+</button>
+</div>
+</div>
+<!-- Item 4: Xiaomi 14 Ultra Leica -->
+<div class="product-card flex flex-col justify-between bg-white rounded-xl p-3 shadow-sm border border-stone-200 hover:shadow-md transition-all duration-200" data-category="smartphones" data-name="Xiaomi 14 Ultra Leica Optics">
+<div>
+<div class="flex items-start justify-between gap-1 mb-space-xs relative z-10">
+<span class="px-2 py-0.5 rounded-full bg-rose-100 text-rose-900 font-label-sm text-label-sm font-bold border border-rose-200/70">Leica Optics</span>
+<button aria-label="O'chirish" class="fav-toggle w-8 h-8 rounded-full bg-rose-50 border border-rose-200/80 flex items-center justify-center text-rose-600 hover:bg-rose-100 shadow-sm hover:scale-105 active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="relative w-full h-32 rounded-lg bg-stone-50 border border-stone-100 overflow-hidden flex items-center justify-center mb-space-sm">
+<img class="w-full h-full object-contain p-2" data-alt="Xiaomi 14 Ultra flagship phone with massive circular Leica lens module on dark leather back panel dramatic neon highlights reflections on glass lens dark tech background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4N8R1pkjcAG1obdSQ1PEJ0827BOQjAlOnH-hbFo84Yury19s02BDonJXd7mqMM7Rwd9SU1yFawDhJC-ajKYA5ug9H2ZIN8cPXceC3Ah8NY9vDGc9-a9s3Wu10wGBNCOMwvj-V0HGISV5N2AlIjSEtCiMKZVGkmSf1T9PYnm0HtOZWWk5mmsYDq02l4pfLXXNjSlgbD6FYmaCSipRUlDMSM_wQXaoNVeDfh-y-agd8_iGQlpVOU_Lq"/>
+</div>
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-stone-500 font-bold uppercase tracking-wider block">Xiaomi</span>
+<h3 class="font-headline-md text-[14px] leading-[18px] text-stone-900 font-bold line-clamp-2 mt-0.5">Xiaomi 14 Ultra 512GB Leica</h3>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs">
+<div class="inline-block px-1.5 py-0.5 rounded bg-emerald-50 border border-emerald-200/80 mb-1">
+<span class="font-label-sm text-label-sm text-emerald-800 font-bold">0-0-12 muddatli to'lov</span>
+</div>
+<div class="font-headline-md text-emerald-700 text-[15px] leading-tight font-bold">1 041 000 so'm<span class="font-label-sm text-[10px] text-emerald-800/70 font-normal">/oy</span></div>
+<div class="font-body-sm text-body-sm text-stone-400 line-through text-[11px] mt-0.5">13 200 000</div>
+<div class="font-headline-md text-stone-900 text-[14px] font-bold">12 500 000 so'm</div>
+<button class="btn-add-cart w-full mt-space-sm py-2 px-space-xs rounded-lg bg-amber-700 hover:bg-amber-800 text-white font-label-md text-label-md font-bold flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">shopping_bag</span>
+<span>Savatga</span>
+</button>
+</div>
+</div>
+<!-- Item 5: Apple Watch Series 10 -->
+<div class="product-card flex flex-col justify-between bg-white rounded-xl p-3 shadow-sm border border-stone-200 hover:shadow-md transition-all duration-200" data-category="accessories" data-name="Apple Watch Series 10 Jet Black">
+<div>
+<div class="flex items-start justify-between gap-1 mb-space-xs relative z-10">
+<span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 font-label-sm text-label-sm font-bold border border-amber-200/70">Yangi</span>
+<button aria-label="O'chirish" class="fav-toggle w-8 h-8 rounded-full bg-rose-50 border border-rose-200/80 flex items-center justify-center text-rose-600 hover:bg-rose-100 shadow-sm hover:scale-105 active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="relative w-full h-32 rounded-lg bg-stone-50 border border-stone-100 overflow-hidden flex items-center justify-center mb-space-sm">
+<img class="w-full h-full object-contain p-2" data-alt="Apple Watch Series 10 in high gloss Jet Black finish curved sapphire glass illuminated watchface on deep dark stand futuristic sleek luxury consumer device" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8eNOcTjgK2Fs5aXFKuKZ0LRWsNgyvDmYwJldvT8QyFAi4evYOktc79op2XkbzQDt7JgUa_OmUdZGv8Rit40gS2BDJT0aipWw7Z7e8rafwh658SYy6Zxkp51gEU8r-kuvN7HUFXxHJ0eM0_nctJbt9kf6Kc_1iL0MOsCNgaOgVXdfzyHjUX-DBMU3u_eI8ifd37umnUlpMeuIk6ekEoSwIAglNEB-YzWff1cp6cZxKB2Vn_xhJLmBJ"/>
+</div>
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-amber-800 font-bold uppercase tracking-wider block">Apple</span>
+<h3 class="font-headline-md text-[14px] leading-[18px] text-stone-900 font-bold line-clamp-2 mt-0.5">Watch Series 10 46mm Jet Black</h3>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs">
+<div class="inline-block px-1.5 py-0.5 rounded bg-emerald-50 border border-emerald-200/80 mb-1">
+<span class="font-label-sm text-label-sm text-emerald-800 font-bold">0-0-12 muddatli to'lov</span>
+</div>
+<div class="font-headline-md text-emerald-700 text-[15px] leading-tight font-bold">466 000 so'm<span class="font-label-sm text-[10px] text-emerald-800/70 font-normal">/oy</span></div>
+<div class="font-body-sm text-body-sm text-stone-400 line-through text-[11px] mt-0.5">6 100 000</div>
+<div class="font-headline-md text-stone-900 text-[14px] font-bold">5 600 000 so'm</div>
+<button class="btn-add-cart w-full mt-space-sm py-2 px-space-xs rounded-lg bg-amber-700 hover:bg-amber-800 text-white font-label-md text-label-md font-bold flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">shopping_bag</span>
+<span>Savatga</span>
+</button>
+</div>
+</div>
+<!-- Item 6: Anker MagGo Qi2 Powerbank -->
+<div class="product-card flex flex-col justify-between bg-white rounded-xl p-3 shadow-sm border border-stone-200 hover:shadow-md transition-all duration-200" data-category="accessories" data-name="Anker MagGo Qi2 10000mAh Powerbank">
+<div>
+<div class="flex items-start justify-between gap-1 mb-space-xs relative z-10">
+<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-900 font-label-sm text-label-sm font-bold border border-emerald-200/70">Simsiz Magnit</span>
+<button aria-label="O'chirish" class="fav-toggle w-8 h-8 rounded-full bg-rose-50 border border-rose-200/80 flex items-center justify-center text-rose-600 hover:bg-rose-100 shadow-sm hover:scale-105 active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="relative w-full h-32 rounded-lg bg-stone-50 border border-stone-100 overflow-hidden flex items-center justify-center mb-space-sm">
+<img class="w-full h-full object-contain p-2" data-alt="Anker MagGo magnetic wireless fast charging power bank 10000mAh dark matte space gray finish with smart digital LED percentage screen luxury studio tech photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-jPNXTtMqjDTrsKV1vkJiQfZ3oA0t-K2RDPfPYrk6Jr9rh69OYxkm8mSBcnBdjPAHm7MHY5Izhz3H9LihERlW5X2yzjj7Guttq8vPXBGNh_VFAsUbbgpaWh5XOcKZ4PxR-OqaKlD8PoDXzaTySp5F4o6yE4ER8JbHSnMMV10ogCMPKssIxh0hQYKcmXB_JqdPLyarW5fTlgT1oKdwLxe-3pE9IXpn-9dYoL31XE5DfMeJuVuvK8cH"/>
+</div>
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-stone-500 font-bold uppercase tracking-wider block">Anker</span>
+<h3 class="font-headline-md text-[14px] leading-[18px] text-stone-900 font-bold line-clamp-2 mt-0.5">MagGo Qi2 10000mAh Powerbank</h3>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs">
+<div class="inline-block px-1.5 py-0.5 rounded bg-stone-100 border border-stone-200 mb-1">
+<span class="font-label-sm text-label-sm text-stone-700 font-bold">Tezkor 15W Qi2</span>
+</div>
+<div class="font-headline-md text-stone-900 text-[15px] font-bold mt-1">690 000 so'm</div>
+<div class="font-body-sm text-body-sm text-stone-500 text-[11px]">Kafolat: 12 oy rasmiy</div>
+<button class="btn-add-cart w-full mt-space-sm py-2 px-space-xs rounded-lg bg-amber-700 hover:bg-amber-800 text-white font-label-md text-label-md font-bold flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">shopping_bag</span>
+<span>Savatga</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Empty State Container (Hidden initially) -->
+<div class="hidden flex-col items-center justify-center py-space-xl px-margin text-center" id="emptyWishlistState">
+<div class="w-20 h-20 rounded-full bg-stone-100 flex items-center justify-center text-stone-400 mb-space-md shadow-inner border border-stone-200">
+<span class="material-symbols-outlined text-[40px]">favorite_border</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-stone-800 font-bold">Sevimlilar ro'yxati bo'sh</h3>
+<p class="font-body-md text-body-md text-stone-500 mt-1 max-w-xs">
+        O'zingizga yoqqan flagman va aksessuarlarni yurakcha belgisi orqali shu yerga saqlab qo'yishingiz mumkin.
+      </p>
+<a class="mt-space-lg px-space-xl py-3 rounded-full bg-amber-700 text-white font-label-lg text-label-lg font-bold shadow-md hover:bg-amber-800 active:scale-95 transition-transform" href="#">
+        Katalogga o'tish
+      </a>
+</div>
+<!-- Bottom Action Deck -->
+<div class="pt-space-sm flex flex-col gap-space-sm">
+<!-- Add All to Cart Button -->
+<button class="w-full py-3.5 px-margin rounded-xl bg-gradient-to-r from-amber-700 via-amber-600 to-amber-700 text-white font-label-lg text-label-lg font-bold flex items-center justify-center gap-space-sm shadow-md hover:shadow-lg active:scale-[0.99] transition-all" id="addAllToCartBtn" type="button">
+<span class="material-symbols-outlined text-[20px]">add_shopping_cart</span>
+<span>Barchasini savatga qo'shish (6)</span>
+</button>
+<!-- Share Wishlist via Telegram -->
+<button class="w-full py-3 px-margin rounded-xl bg-white hover:bg-stone-50 text-amber-900 border border-stone-200 font-label-md text-label-md font-semibold flex items-center justify-center gap-space-sm shadow-sm active:scale-[0.99] transition-all" id="shareWishlistBtn" type="button">
+<span class="material-symbols-outlined text-[18px] text-sky-600">share</span>
+<span>Ro'yxatni Telegram orqali ulashish</span>
+</button>
+<!-- Trust Stamp & Official Warranty Badge -->
+<div class="flex items-center justify-center gap-space-sm py-space-xs text-stone-500">
+<span class="material-symbols-outlined text-emerald-600 text-[16px]">verified_user</span>
+<span class="font-label-sm text-label-sm tracking-wide">1 yillik rasmiy kafolat • Toshkent bo'ylab bepul tezkor yetkazish</span>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const toast = document.getElementById('toastNotification');
+    const toastMsg = document.getElementById('toastMessage');
+    const favCountEl = document.getElementById('fav-count');
+    const addAllBtn = document.getElementById('addAllToCartBtn');
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const cards = document.querySelectorAll('.product-card');
+    const searchInput = document.getElementById('wishlistSearch');
+    const clearSearch = document.getElementById('clearSearchBtn');
+    const emptyState = document.getElementById('emptyWishlistState');
+    const productsGrid = document.getElementById('productsGrid');
+
+    let count = cards.length;
+
+    function showToast(message) {
+      if (!toast || !toastMsg) return;
+      toastMsg.textContent = message;
+      toast.classList.remove('opacity-0', 'translate-y-[-10px]', 'pointer-events-none');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-[-10px]', 'pointer-events-none');
+      }, 2300);
+    }
+
+    // Toggle favorite removal with haptic-like animation
+    document.querySelectorAll('.fav-toggle').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const card = btn.closest('.product-card');
+        card.style.transform = 'scale(0.85)';
+        card.style.opacity = '0';
+        setTimeout(() => {
+          card.remove();
+          count--;
+          if (favCountEl) favCountEl.textContent = count;
+          if (addAllBtn) addAllBtn.querySelector('span:last-child').textContent = `Barchasini savatga qo'shish (${count})`;
+          showToast("Mahsulot sevimlilardan olib tashlandi");
+          if (count === 0) {
+            productsGrid.classList.add('hidden');
+            emptyState.classList.remove('hidden');
+            emptyState.classList.add('flex');
+            if (addAllBtn) addAllBtn.disabled = true;
+          }
+        }, 220);
+      });
+    });
+
+    // Add to cart micro-interaction
+    document.querySelectorAll('.btn-add-cart').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const card = btn.closest('.product-card');
+        const title = card ? card.querySelector('h3').textContent : 'Mahsulot';
+        btn.classList.remove('bg-amber-700', 'hover:bg-amber-800');
+        btn.classList.add('bg-emerald-600', 'text-white');
+        btn.innerHTML = `<span class="material-symbols-outlined text-[16px]">done</span><span>Qo'shildi</span>`;
+        showToast(`${title.slice(0, 22)}... savatga qo'shildi!`);
+        setTimeout(() => {
+          btn.classList.remove('bg-emerald-600');
+          btn.classList.add('bg-amber-700', 'hover:bg-amber-800');
+          btn.innerHTML = `<span class="material-symbols-outlined text-[16px]">shopping_bag</span><span>Savatga</span>`;
+        }, 1800);
+      });
+    });
+
+    // Category Tabs Filter
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach(t => {
+          t.classList.remove('bg-amber-800', 'text-white');
+          t.classList.add('bg-white', 'border', 'border-stone-200', 'text-stone-600');
+        });
+        tab.classList.remove('bg-white', 'border', 'border-stone-200', 'text-stone-600');
+        tab.classList.add('bg-amber-800', 'text-white');
+
+        const filter = tab.getAttribute('data-filter');
+        document.querySelectorAll('.product-card').forEach(card => {
+          if (filter === 'all' || card.getAttribute('data-category') === filter) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    // Search filter
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const val = e.target.value.toLowerCase().trim();
+        if (clearSearch) {
+          clearSearch.classList.toggle('hidden', val.length === 0);
+        }
+        document.querySelectorAll('.product-card').forEach(card => {
+          const name = (card.getAttribute('data-name') || '').toLowerCase();
+          if (name.includes(val)) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    }
+
+    if (clearSearch) {
+      clearSearch.addEventListener('click', () => {
+        searchInput.value = '';
+        clearSearch.classList.add('hidden');
+        document.querySelectorAll('.product-card').forEach(card => card.classList.remove('hidden'));
+      });
+    }
+
+    // Add all to cart action
+    if (addAllBtn) {
+      addAllBtn.addEventListener('click', () => {
+        showToast("Barcha mahsulotlar savatga muvaffaqiyatli o'tkazildi!");
+      });
+    }
+
+    // Share wishlist action
+    const shareBtn = document.getElementById('shareWishlistBtn');
+    if (shareBtn) {
+      shareBtn.addEventListener('click', () => {
+        showToast("Havola Telegram orqali ulashish uchun tayyorlandi!");
+      });
+    }
+
+    // Telegram toggle switch alert
+    const tgToggle = document.getElementById('tgAlertToggle');
+    if (tgToggle) {
+      tgToggle.addEventListener('change', () => {
+        if (tgToggle.checked) {
+          showToast("Telegram narx tushish bildirishnomalari yoqildi");
+        } else {
+          showToast("Bildirishnomalar vaqtincha to'xtatildi");
+        }
+      });
+    }
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-white/95 backdrop-blur-xl border-t border-stone-200/80 shadow-[0_-4px_16px_rgba(0,0,0,0.04)]"><div class="h-16 px-space-sm flex items-center justify-around"><a class="flex flex-col items-center justify-center w-14 h-12 text-stone-500 hover:text-amber-800 transition-all" data-path="bosh-sahifa" href="#"><span class="material-symbols-outlined text-[22px]">home</span><span class="font-label-sm text-label-sm tracking-tight">Asosiy</span></a><a class="flex flex-col items-center justify-center w-14 h-12 text-stone-500 hover:text-amber-800 transition-all" data-path="katalog" href="#"><span class="material-symbols-outlined text-[22px]">dashboard</span><span class="font-label-sm text-label-sm tracking-tight">Katalog</span></a><a class="relative flex flex-col items-center justify-center w-14 h-12 text-stone-500 hover:text-amber-800 transition-all" data-path="savat" href="#"><span class="material-symbols-outlined text-[22px]">shopping_bag</span><span class="absolute top-1 right-3.5 w-4 h-4 rounded-full bg-emerald-600 text-white font-label-sm text-[9px] font-bold flex items-center justify-center shadow-xs">3</span><span class="font-label-sm text-label-sm tracking-tight">Savat</span></a><a aria-current="page" class="flex flex-col items-center justify-center w-14 h-12 transition-all text-amber-800 font-bold" data-path="sevimlilar" href="#"><span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">favorite</span><span class="font-label-sm text-label-sm tracking-tight font-bold">Sevimlilar</span></a><a class="flex flex-col items-center justify-center w-14 h-12 text-stone-500 hover:text-amber-800 transition-all" data-path="profil" href="#"><span class="material-symbols-outlined text-[22px]">account_circle</span><span class="font-label-sm text-label-sm tracking-tight">Profil</span></a></div></nav></body></html>

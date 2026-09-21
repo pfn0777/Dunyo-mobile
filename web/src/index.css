@@ -10,7 +10,7 @@
   }
   body {
     overscroll-behavior-y: none;
-    background-color: #121316;
+    background-color: rgb(var(--color-background));
   }
 }
 

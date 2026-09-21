@@ -1,60 +1,19 @@
-/** @type {import('tailwindcss').Config} */
-// Tokens copied verbatim from design/stitch/home.html's `tailwind.config` script
-// block (Stitch "Dunyo Luxury Tech" design system).
+import type { Config } from 'tailwindcss';
+import { cssVarName } from './src/theme/css.ts';
+import { TOKEN_NAMES } from './src/theme/tokens.ts';
+
+// Fonts, spacing and radii come from design/stitch/home.html's `tailwind.config`
+// (Stitch "Dunyo Luxury Tech") and are shared by both themes; only colours change.
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   darkMode: 'class',
   theme: {
     extend: {
-      colors: {
-        'on-primary': '#402d00',
-        'on-tertiary-fixed': '#001a41',
-        'secondary-fixed-dim': '#00e2a0',
-        'on-primary-fixed': '#261900',
-        'primary-fixed-dim': '#edc062',
-        'on-secondary-container': '#005f41',
-        'on-surface-variant': '#d1c5b2',
-        tertiary: '#cddbff',
-        'surface-container-low': '#1b1b1f',
-        'outline-variant': '#4e4637',
-        'tertiary-fixed': '#d8e2ff',
-        'secondary-container': '#00e2a0',
-        'surface-container-lowest': '#0d0e11',
-        'tertiary-container': '#a2bfff',
-        'on-secondary-fixed': '#002114',
-        'error-container': '#93000a',
-        'on-secondary': '#003825',
-        'on-tertiary': '#002e69',
-        'inverse-primary': '#7a5900',
-        'inverse-surface': '#e3e2e6',
-        background: '#121316',
-        primary: '#ffd682',
-        'primary-fixed': '#ffdea1',
-        'tertiary-fixed-dim': '#adc6ff',
-        'surface-container': '#1f1f23',
-        surface: '#121316',
-        'surface-container-highest': '#343538',
-        'on-tertiary-container': '#004aa2',
-        'on-error-container': '#ffdad6',
-        'surface-dim': '#121316',
-        'on-background': '#e3e2e6',
-        'inverse-on-surface': '#303034',
-        error: '#ffb4ab',
-        'secondary-fixed': '#43ffbb',
-        'on-error': '#690005',
-        'on-secondary-fixed-variant': '#005138',
-        'surface-variant': '#343538',
-        'primary-container': '#e5b95c',
-        'surface-container-high': '#292a2d',
-        'on-surface': '#e3e2e6',
-        'on-primary-container': '#654900',
-        'on-primary-fixed-variant': '#5c4300',
-        'surface-tint': '#edc062',
-        outline: '#9a8f7e',
-        'surface-bright': '#38393c',
-        secondary: '#43ffbb',
-        'on-tertiary-fixed-variant': '#004494',
-      },
+      // Values live in src/theme/tokens.ts and reach the page as CSS variables
+      // (injected by the Vite plugin). `<alpha-value>` keeps `bg-primary/10` etc. working.
+      colors: Object.fromEntries(
+        TOKEN_NAMES.map((name) => [name, `rgb(var(${cssVarName(name)}) / <alpha-value>)`]),
+      ),
       borderRadius: {
         DEFAULT: '0.25rem',
         lg: '0.5rem',
@@ -103,4 +62,4 @@ export default {
     },
   },
   plugins: [],
-};
+} satisfies Config;

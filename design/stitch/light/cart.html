@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+
+<html class="light" lang="uz"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><title>Dunyo Mobile - Savat</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "background": "#f8f9fa",
+          "surface-container-highest": "#e1e3e4",
+          "on-tertiary-container": "#fffbff",
+          "on-tertiary-fixed": "#271900",
+          "surface-tint": "#7e5700",
+          "surface-container-low": "#f3f4f5",
+          "secondary-fixed-dim": "#c0c6db",
+          "on-background": "#191c1d",
+          "primary-fixed": "#ffdeac",
+          "inverse-primary": "#f7bd56",
+          "primary-container": "#9a6c01",
+          "surface-container-lowest": "#ffffff",
+          "surface-bright": "#f8f9fa",
+          "error": "#ba1a1a",
+          "on-surface-variant": "#4f4536",
+          "surface-dim": "#d9dadb",
+          "primary-fixed-dim": "#f7bd56",
+          "surface-variant": "#e1e3e4",
+          "on-secondary-fixed": "#141b2b",
+          "on-primary-fixed-variant": "#5f4100",
+          "on-secondary-container": "#5c6274",
+          "tertiary-fixed-dim": "#f5be4f",
+          "secondary": "#575e70",
+          "on-primary-container": "#fffbff",
+          "on-secondary": "#ffffff",
+          "secondary-fixed": "#dce2f7",
+          "on-surface": "#191c1d",
+          "on-secondary-fixed-variant": "#404758",
+          "primary": "#7b5500",
+          "error-container": "#ffdad6",
+          "inverse-surface": "#2e3132",
+          "surface-container-high": "#e7e8e9",
+          "on-primary-fixed": "#281900",
+          "tertiary": "#795600",
+          "outline-variant": "#d4c4b0",
+          "on-error": "#ffffff",
+          "on-tertiary-fixed-variant": "#5e4200",
+          "surface": "#f8f9fa",
+          "outline": "#827564",
+          "tertiary-container": "#986d00",
+          "on-error-container": "#93000a",
+          "surface-container": "#edeeef",
+          "inverse-on-surface": "#f0f1f2",
+          "on-tertiary": "#ffffff",
+          "on-primary": "#ffffff",
+          "secondary-container": "#d9dff5",
+          "tertiary-fixed": "#ffdea7"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "space-sm": "0.5rem",
+          "space-md": "1rem",
+          "space-xl": "2rem",
+          "margin": "1rem",
+          "space-xs": "0.25rem",
+          "gutter": "0.75rem",
+          "space-lg": "1.5rem"
+        },
+        "fontFamily": {
+          "headline-xl-mobile": ["Outfit"],
+          "body-sm": ["Plus Jakarta Sans"],
+          "label-lg": ["Plus Jakarta Sans"],
+          "body-lg": ["Plus Jakarta Sans"],
+          "headline-lg-mobile": ["Outfit"],
+          "headline-md": ["Outfit"],
+          "label-md": ["Plus Jakarta Sans"],
+          "body-md": ["Plus Jakarta Sans"],
+          "label-sm": ["Plus Jakarta Sans"],
+          "headline-xl": ["Outfit"],
+          "headline-lg": ["Outfit"]
+        },
+        "fontSize": {
+          "headline-xl-mobile": ["30px", { "lineHeight": "38px", "fontWeight": "600" }],
+          "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+          "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "600" }],
+          "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+          "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+          "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "500" }],
+          "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+          "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+          "label-sm": ["10px", { "lineHeight": "14px", "fontWeight": "600" }],
+          "headline-xl": ["40px", { "lineHeight": "48px", "fontWeight": "600" }],
+          "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "600" }]
+        }
+      }
+    }
+  }
+</script><style>@layer base{html,body{width:100%;margin:0;padding:0;background-color:#f8f9fa;color:#191c1d;-webkit-tap-highlight-color:transparent;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-[#f8f9fa] font-body-md text-body-md text-[#191c1d] min-h-screen flex flex-col selection:bg-primary-fixed selection:text-on-primary-fixed"><header class="fixed top-0 w-full z-50 pt-safe bg-white/90 backdrop-blur-xl border-b border-gray-200/80 shadow-sm"><div class="h-24 px-margin flex flex-col justify-center gap-space-xs"><div class="flex items-center justify-between"><div class="flex items-center gap-space-sm"><img alt="Dunyo Mobile Logo" class="h-9 w-9 object-contain rounded-full shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKyrRN-gnDRH8AhQoyLyAFrUi3h9CWNx80KF-k3c5LfATs7n7-Bx0nAcNtcX6q9VcRUUfrl1TCFE0L0F434hF0EDe-864Ubgj7eCkk3K-AkXhRtnP4vT0lKyvFPtIOGbuIJEKJ1MG1vlDq188i9QIFmBQLtvaqv-iyi1xfFRSQz4QVrAQoRDoJPy0MIDJCO42DJAhDhRrBQra7Kr-fGnuHi2C6XlDvQa932vr9ZmSwncEgzjOjmd21scHozOYZpeJ4VA"/><div class="flex items-center gap-1"><span class="font-headline-md text-headline-md text-[#191c1d] font-bold tracking-tight">Dunyo Mobile</span><span class="material-symbols-outlined text-[#7b5500] text-[18px]" style="font-variation-settings: 'FILL' 1;" title="Verified Official Store">verified</span></div></div><div class="flex items-center gap-space-xs"><button aria-label="Tilni tanlash" class="h-9 px-2.5 flex items-center gap-1 rounded-full bg-[#f3f4f5] text-on-surface-variant hover:text-primary transition-colors border border-gray-200" type="button"><span class="material-symbols-outlined text-[16px] text-primary">language</span><span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">UZ</span></button><button aria-label="Telegram sozlamalari" class="w-9 h-9 flex items-center justify-center rounded-full bg-[#f3f4f5] text-on-surface-variant hover:text-on-surface transition-colors border border-gray-200" type="button"><span class="material-symbols-outlined text-[19px]">more_vert</span></button><button aria-label="Yopish" class="w-9 h-9 flex items-center justify-center rounded-full bg-[#f3f4f5] text-on-surface-variant hover:text-on-surface transition-colors border border-gray-200" type="button"><span class="material-symbols-outlined text-[19px]">close</span></button><div class="w-8 h-8 rounded-full bg-gradient-to-tr from-[#9a6c01] to-[#f7bd56] flex items-center justify-center ml-1 shadow-sm"><span class="material-symbols-outlined text-white text-[18px]">person</span></div></div></div><div class="flex items-center justify-between"><button class="flex items-center gap-1 text-on-surface-variant hover:text-on-surface transition-colors py-0.5" type="button"><span class="material-symbols-outlined text-[16px] text-[#7b5500]">location_on</span><span class="font-body-sm text-body-sm text-on-surface-variant">Yetkazish:</span><span class="font-label-md text-label-md text-[#191c1d] font-bold">Toshkent shahri</span><span class="material-symbols-outlined text-[15px] text-on-surface-variant">keyboard_arrow_down</span></button><span class="font-label-sm text-label-sm text-[#7b5500] font-bold uppercase tracking-wider bg-[#ffdeac]/40 px-2 py-0.5 rounded-full">Savat</span></div></div></header><main class="flex-1 flex flex-col relative w-full pt-24 pb-28 bg-[#f8f9fa]"><div class="flex flex-col w-full space-y-4 px-margin">
+<!-- Top Action & Items Counter Header -->
+<div class="flex items-center justify-between pt-2">
+<div class="flex items-center gap-2">
+<div class="w-2.5 h-2.5 rounded-full bg-[#7b5500] shadow-[0_0_8px_rgba(123,85,0,0.4)]"></div>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-[#191c1d] font-extrabold tracking-tight">Savat</span>
+<span class="px-2.5 py-0.5 rounded-full bg-[#e7e8e9] text-on-surface font-label-sm text-label-sm font-bold">3 ta mahsulot</span>
+</div>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white hover:bg-red-50 text-gray-600 hover:text-red-700 transition-all border border-gray-200 shadow-sm" id="btn-clear-cart" type="button">
+<span class="material-symbols-outlined text-[17px]">delete_sweep</span>
+<span class="font-label-sm text-label-sm font-semibold">Tozalash</span>
+</button>
+</div>
+<!-- Delivery Express Free Shipping Banner -->
+<div class="relative overflow-hidden rounded-xl bg-gradient-to-r from-amber-50 via-white to-amber-50/70 p-space-md border border-amber-200/80 shadow-sm">
+<div class="absolute -right-4 -bottom-4 w-24 h-24 rounded-full bg-amber-400/10 blur-xl pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-xl bg-[#7b5500]/10 flex items-center justify-center text-[#7b5500]">
+<span class="material-symbols-outlined text-[24px]">local_shipping</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-[#191c1d] font-bold">Toshkent bo‘ylab bepul ekspress</span>
+<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-label-sm text-label-sm font-bold">3 soat</span>
+</div>
+<p class="font-body-sm text-body-sm text-gray-500">Buyurtmangiz bugun qabul qilinib yetkaziladi</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-[#7b5500] text-[22px]">bolt</span>
+</div>
+</div>
+<!-- Cart Product Items List -->
+<div class="flex flex-col gap-3" id="cart-list">
+<!-- Item 1: iPhone 16 Pro Max -->
+<div class="relative rounded-xl bg-white p-space-md border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-start gap-3">
+<!-- Checkbox -->
+<label class="relative flex items-center justify-center cursor-pointer mt-1">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-5 h-5 rounded-lg bg-gray-100 border border-gray-300 peer-checked:bg-[#7b5500] peer-checked:border-[#7b5500] flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[15px] text-white font-bold">check</span>
+</div>
+</label>
+<!-- Product Image -->
+<div class="relative w-20 h-24 rounded-lg bg-[#f8f9fa] border border-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-contain p-1" data-alt="Official Apple iPhone 16 Pro Max Natural Titanium flagship smartphone with triple camera lenses lying on a reflective black marble pedestal with subtle warm champagne gold studio rim lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLXNNRGa8otBuaWzSA3x8CXRR8zaKyaazDxDCqY7cXCOzHBC7xCu7fpdze3sYel-I0iK4vbGY0Fi8Q0th4AWuVes1cDvY1ysvo1E01GiW6G_J3PqRT1w_G7d4MZhEnC6iD3uFZwzla-5EmGJarmRzTvqH_crS0hvzi6dUeCUPxFmk4lWHNoEHnEeInwe9qLEpRlXg2jBPTeoTYt2K-1r_Bz497ydLnyNCi0THuSBwkh8A6Pnb3XiTE"/>
+<span class="absolute bottom-1 left-1 px-1 py-0.5 rounded bg-white/90 shadow-sm border border-gray-100 text-gray-800 font-label-sm text-[9px] font-bold">256GB</span>
+</div>
+<!-- Info & Controls -->
+<div class="flex-1 min-w-0 flex flex-col justify-between">
+<div class="flex items-start justify-between gap-1">
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-[#7b5500] font-bold uppercase tracking-wider">Apple Flagship</span>
+<h3 class="font-headline-md text-[17px] leading-snug text-[#191c1d] font-bold truncate">iPhone 16 Pro Max</h3>
+<p class="font-body-sm text-body-sm text-gray-500">Natural Titanium • 256GB</p>
+</div>
+<button aria-label="O'chirish" class="w-7 h-7 rounded-full flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Price & Installment -->
+<div class="mt-2 flex flex-col">
+<div class="flex items-baseline gap-1.5">
+<span class="font-headline-md text-headline-md text-[#191c1d] font-bold">17 800 000</span>
+<span class="font-label-sm text-label-sm text-gray-500 font-semibold">so‘m</span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200/60 font-label-sm text-label-sm font-bold">1 483 000 so‘m/oy</span>
+<span class="font-label-sm text-label-sm text-gray-500">• 12 oy</span>
+</div>
+</div>
+<!-- Counter Actions -->
+<div class="mt-3 flex items-center justify-between">
+<div class="inline-flex items-center rounded-full bg-[#f3f4f5] border border-gray-200 p-0.5">
+<button class="w-7 h-7 rounded-full flex items-center justify-center text-gray-700 hover:bg-white transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">remove</span>
+</button>
+<span class="font-label-md text-label-md px-3 text-[#191c1d] font-bold">1</span>
+<button class="w-7 h-7 rounded-full flex items-center justify-center text-gray-700 hover:bg-white transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+<div class="flex items-center gap-1 text-[#7b5500]">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-label-sm text-label-sm font-bold">Kafolat 1 yil</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 2: AirPods Pro 2 -->
+<div class="relative rounded-xl bg-white p-space-md border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-start gap-3">
+<label class="relative flex items-center justify-center cursor-pointer mt-1">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-5 h-5 rounded-lg bg-gray-100 border border-gray-300 peer-checked:bg-[#7b5500] peer-checked:border-[#7b5500] flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[15px] text-white font-bold">check</span>
+</div>
+</label>
+<div class="relative w-20 h-24 rounded-lg bg-[#f8f9fa] border border-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-contain p-1" data-alt="Apple AirPods Pro 2 wireless earbuds in white MagSafe USB-C charging case open showing both pods with warm golden and cyan high-tech ambient backlighting on dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBX8wlfsO5EJiNFIuRGmJvFjLqNNBYalxq7fruaYmG2euRRgzEoch86pW8XRmaJeREcrGwWRMzJxefXWUjAd13lKoiw3Xg3F4XPnj1yK14boX18307jaI2DWlWi6GjSw1Hwmd8Obes14kBT-0WAQoWopKdPJINMgmFdqHUnKGD5b1Oi7MSEsklkKInu0Xdtfvlbz5N00OKmjqwyu2dfoxrKo89qpAFH0S0WdFp5089uHmrfJlCd8MOf"/>
+<span class="absolute bottom-1 left-1 px-1 py-0.5 rounded bg-white/90 shadow-sm border border-gray-100 text-gray-800 font-label-sm text-[9px] font-bold">USB-C</span>
+</div>
+<div class="flex-1 min-w-0 flex flex-col justify-between">
+<div class="flex items-start justify-between gap-1">
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-[#7b5500] font-bold uppercase tracking-wider">Audio Premium</span>
+<h3 class="font-headline-md text-[17px] leading-snug text-[#191c1d] font-bold truncate">AirPods Pro 2 (2024)</h3>
+<p class="font-body-sm text-body-sm text-gray-500">White • Type-C MagSafe</p>
+</div>
+<button aria-label="O'chirish" class="w-7 h-7 rounded-full flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="mt-2 flex flex-col">
+<div class="flex items-baseline gap-1.5">
+<span class="font-headline-md text-headline-md text-[#191c1d] font-bold">2 890 000</span>
+<span class="font-label-sm text-label-sm text-gray-500 font-semibold">so‘m</span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200/60 font-label-sm text-label-sm font-bold">240 800 so‘m/oy</span>
+<span class="font-label-sm text-label-sm text-gray-500">• 12 oy</span>
+</div>
+</div>
+<div class="mt-3 flex items-center justify-between">
+<div class="inline-flex items-center rounded-full bg-[#f3f4f5] border border-gray-200 p-0.5">
+<button class="w-7 h-7 rounded-full flex items-center justify-center text-gray-700 hover:bg-white transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">remove</span>
+</button>
+<span class="font-label-md text-label-md px-3 text-[#191c1d] font-bold">1</span>
+<button class="w-7 h-7 rounded-full flex items-center justify-center text-gray-700 hover:bg-white transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+<div class="flex items-center gap-1 text-[#7b5500]">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="font-label-sm text-label-sm font-bold">Original Apple</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 3: Apple 20W Power Adapter -->
+<div class="relative rounded-xl bg-white p-space-md border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-start gap-3">
+<label class="relative flex items-center justify-center cursor-pointer mt-1">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-5 h-5 rounded-lg bg-gray-100 border border-gray-300 peer-checked:bg-[#7b5500] peer-checked:border-[#7b5500] flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[15px] text-white font-bold">check</span>
+</div>
+</label>
+<div class="relative w-20 h-24 rounded-lg bg-[#f8f9fa] border border-gray-100 flex items-center justify-center overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-contain p-1" data-alt="Apple original 20W USB-C compact power adapter block white minimalist wall charger rendered with soft gold glow on dark background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-fOBQLHCjWAhqEQEgJQh6Ja6KNPabeEn4EnNdku4CQ-lcyQAdBQP_NNsCimML4lEfKIMyJhe83fGUR8jRkrUaPoDDB7Wf3i7s4Lj3AnqHB1zexEpcm6Ruxo5xty3oFpcsOt9NRsLrOVqR_OtjdobMR9e2y-otMqZ28NnX4DLM1OLVk6Ph99zlIuFwZ40wN5uvegpwJD-7Se0lMrNQD6LzzUnl_pWkXDBCDScf0w5R1at58SrgkOEz"/>
+<span class="absolute bottom-1 left-1 px-1 py-0.5 rounded bg-white/90 shadow-sm border border-gray-100 text-gray-800 font-label-sm text-[9px] font-bold">20W</span>
+</div>
+<div class="flex-1 min-w-0 flex flex-col justify-between">
+<div class="flex items-start justify-between gap-1">
+<div class="min-w-0">
+<span class="font-label-sm text-label-sm text-[#7b5500] font-bold uppercase tracking-wider">Aksessuar</span>
+<h3 class="font-headline-md text-[17px] leading-snug text-[#191c1d] font-bold truncate">20W USB-C Adapter</h3>
+<p class="font-body-sm text-body-sm text-gray-500">Original Fast Charger</p>
+</div>
+<button aria-label="O'chirish" class="w-7 h-7 rounded-full flex items-center justify-center text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="mt-2 flex flex-col">
+<div class="flex items-baseline gap-1.5">
+<span class="font-headline-md text-headline-md text-[#191c1d] font-bold">280 000</span>
+<span class="font-label-sm text-label-sm text-gray-500 font-semibold">so‘m</span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5">
+<span class="font-label-sm text-label-sm text-gray-500">Tezkor zaryadlash standarti</span>
+</div>
+</div>
+<div class="mt-3 flex items-center justify-between">
+<div class="inline-flex items-center rounded-full bg-[#f3f4f5] border border-gray-200 p-0.5">
+<button class="w-7 h-7 rounded-full flex items-center justify-center text-gray-700 hover:bg-white transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">remove</span>
+</button>
+<span class="font-label-md text-label-md px-3 text-[#191c1d] font-bold">1</span>
+<button class="w-7 h-7 rounded-full flex items-center justify-center text-gray-700 hover:bg-white transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</button>
+</div>
+<div class="flex items-center gap-1 text-[#7b5500]">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">shield</span>
+<span class="font-label-sm text-label-sm font-bold">1 oy kafolat</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Promo Code Section -->
+<div class="rounded-xl bg-white p-space-md border border-gray-200 shadow-sm">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-[#7b5500] text-[20px]">confirmation_number</span>
+<span class="font-headline-md text-[18px] text-[#191c1d] font-bold">Promokod yoki vaucher</span>
+</div>
+<div class="flex gap-2">
+<div class="relative flex-1">
+<input class="w-full h-11 px-4 rounded-xl bg-[#f8f9fa] border border-gray-300 text-[#191c1d] font-label-md text-label-md font-bold tracking-wider placeholder:text-gray-400 focus:outline-none focus:border-[#7b5500] uppercase" id="promo-input" placeholder="DUNYO2025" type="text" value="DUNYOVIP"/>
+<span class="absolute right-3 top-3 material-symbols-outlined text-emerald-600 text-[20px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<button class="px-5 h-11 rounded-xl bg-[#7b5500] text-white font-label-md text-label-md font-bold shadow-md hover:bg-[#634500] active:scale-95 transition-all" id="btn-promo-apply" type="button">
+  Qo‘llandi
+</button>
+</div>
+<p class="mt-2 font-body-sm text-body-sm text-emerald-700 flex items-center gap-1.5 font-medium">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+"DUNYOVIP" promokodi orqali 350 000 so‘m tejab qolindi!
+</p>
+</div>
+<!-- Delivery Method Selector -->
+<div class="rounded-xl bg-white p-space-md border border-gray-200 shadow-sm space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#7b5500] text-[20px]">local_shipping</span>
+<span class="font-headline-md text-[18px] text-[#191c1d] font-bold">Yetkazib berish usuli</span>
+</div>
+<span class="font-label-sm text-label-sm text-[#7b5500] font-bold bg-[#ffdeac]/40 px-2 py-0.5 rounded-full">Toshkent sh.</span>
+</div>
+<!-- Option 1: Courier -->
+<label class="relative flex items-start gap-3 p-3.5 rounded-xl bg-[#f8f9fa] border-2 border-[#7b5500] cursor-pointer transition-all">
+<input checked="" class="sr-only peer" name="delivery-type" type="radio"/>
+<div class="w-5 h-5 rounded-full bg-[#7b5500] flex items-center justify-center mt-0.5">
+<div class="w-2 h-2 rounded-full bg-white"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-[#191c1d] font-bold">Kuryer orqali yetkazish</span>
+<span class="font-label-sm text-label-sm text-emerald-700 font-bold uppercase bg-emerald-50 px-2 py-0.5 rounded">Bepul</span>
+</div>
+<p class="font-body-sm text-body-sm text-gray-500 mt-0.5">Eshikkacha tezkor yetkazib berish (3 soat ichida)</p>
+</div>
+</label>
+<!-- Option 2: Pickup -->
+<label class="relative flex items-start gap-3 p-3.5 rounded-xl bg-[#f8f9fa] border border-gray-200 hover:border-gray-300 cursor-pointer transition-all">
+<input class="sr-only peer" name="delivery-type" type="radio"/>
+<div class="w-5 h-5 rounded-full bg-white border border-gray-300 flex items-center justify-center mt-0.5">
+<div class="w-2 h-2 rounded-full bg-transparent"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-[#191c1d] font-bold">Do‘kondan olib ketish</span>
+<span class="font-label-sm text-label-sm text-[#7b5500] font-bold bg-amber-50 px-2 py-0.5 rounded">Bugun</span>
+</div>
+<p class="font-body-sm text-body-sm text-gray-500 mt-0.5">Dunyo Mobile Samarqand Darvoza filiali (10:00 - 22:00)</p>
+</div>
+</label>
+</div>
+<!-- Payment Method Selection -->
+<div class="rounded-xl bg-white p-space-md border border-gray-200 shadow-sm space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#7b5500] text-[20px]">account_balance_wallet</span>
+<span class="font-headline-md text-[18px] text-[#191c1d] font-bold">To‘lov usuli</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-label-sm text-label-sm font-bold">0-0-12 Muddatli</span>
+</div>
+<!-- Option 1: Installments (Nasiya) -->
+<label class="relative flex items-start gap-3 p-3.5 rounded-xl bg-[#f8f9fa] border-2 border-[#7b5500] cursor-pointer transition-all">
+<input checked="" class="sr-only peer" name="payment-type" type="radio"/>
+<div class="w-5 h-5 rounded-full bg-[#7b5500] flex items-center justify-center mt-0.5">
+<div class="w-2 h-2 rounded-full bg-white"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-[#191c1d] font-bold">0-0-12 Muddatli to‘lov</span>
+<span class="font-label-md text-label-md text-emerald-700 font-bold">1 718 000 so‘m/oy</span>
+</div>
+<p class="font-body-sm text-body-sm text-gray-500 mt-0.5">Uzum Nasiya, Alif Nasiya, Anor Bank (Boshlang‘ich to‘lov 0%)</p>
+</div>
+</label>
+<!-- Option 2: Full Payment -->
+<label class="relative flex items-start gap-3 p-3.5 rounded-xl bg-[#f8f9fa] border border-gray-200 hover:border-gray-300 cursor-pointer transition-all">
+<input class="sr-only peer" name="payment-type" type="radio"/>
+<div class="w-5 h-5 rounded-full bg-white border border-gray-300 flex items-center justify-center mt-0.5">
+<div class="w-2 h-2 rounded-full bg-transparent"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-[#191c1d] font-bold">To‘liq to‘lov</span>
+<span class="font-label-sm text-label-sm text-[#7b5500] font-bold bg-amber-50 px-2 py-0.5 rounded">Click / Payme / Visa</span>
+</div>
+<p class="font-body-sm text-body-sm text-gray-500 mt-0.5">Uzcard, Humo, Visa va Mastercard orqali onlayn xavfsiz to‘lov</p>
+</div>
+</label>
+</div>
+<!-- Order Financial Calculation Summary -->
+<div class="rounded-xl bg-white p-space-md border border-gray-200 shadow-sm space-y-2">
+<h3 class="font-headline-md text-[18px] text-[#191c1d] font-bold mb-1">Buyurtma hisob-kitobi</h3>
+<div class="flex items-center justify-between text-gray-600 py-1 border-b border-gray-100">
+<span class="font-body-md text-body-md">Mahsulotlar (3 ta):</span>
+<span class="font-label-lg text-label-lg text-[#191c1d] font-semibold">20 970 000 so‘m</span>
+</div>
+<div class="flex items-center justify-between text-emerald-700 py-1 border-b border-gray-100">
+<span class="font-body-md text-body-md flex items-center gap-1 font-medium">
+<span class="material-symbols-outlined text-[16px]">sell</span>
+Promokod chegirmasi:
+</span>
+<span class="font-label-lg text-label-lg font-bold">-350 000 so‘m</span>
+</div>
+<div class="flex items-center justify-between text-gray-600 py-1 border-b border-gray-100">
+<span class="font-body-md text-body-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">local_shipping</span>
+Yetkazib berish (Ekspress):
+</span>
+<span class="font-label-lg text-label-lg text-emerald-700 font-bold uppercase">Bepul</span>
+</div>
+<div class="pt-2 flex items-baseline justify-between">
+<div>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-[#191c1d] font-extrabold">Jami to‘lov:</span>
+<p class="font-body-sm text-body-sm text-emerald-700 font-bold">yoki 1 718 000 so‘m/oy (12 oy)</p>
+</div>
+<div class="text-right">
+<span class="font-headline-xl-mobile text-[26px] leading-tight text-[#7b5500] font-black tracking-tight">20 620 000</span>
+<span class="font-label-sm text-label-sm text-gray-500 block uppercase font-bold">UZS (so‘m)</span>
+</div>
+</div>
+</div>
+<!-- Bottom CTA Container: Sticky Above Shell Dock -->
+<div class="sticky bottom-2 z-30 pt-1">
+<div class="rounded-2xl p-3.5 bg-white/95 backdrop-blur-xl border border-gray-200/90 shadow-[0_8px_30px_rgba(0,0,0,0.12)] flex flex-col gap-2.5">
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-1 text-gray-600 font-label-sm text-label-sm font-semibold">
+<span class="material-symbols-outlined text-emerald-600 text-[16px]" style="font-variation-settings: 'FILL' 1;">security</span>
+<span>100% Xavfsiz rasmiylashtirish</span>
+</div>
+<div class="flex items-center gap-1 text-[#7b5500] font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[16px]">bolt</span>
+<span>Tezkor tasdiqlash</span>
+</div>
+</div>
+<!-- Main Action Button -->
+<button class="w-full h-14 rounded-xl bg-gradient-to-r from-[#ffdeac] via-[#f7bd56] to-[#e5b95c] hover:brightness-105 active:scale-[0.99] text-[#281900] font-headline-md text-headline-md font-black shadow-[0_4px_20px_rgba(247,189,86,0.45)] border border-amber-300 flex items-center justify-between px-space-md transition-all" id="btn-checkout" type="button">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[24px]">shopping_cart_checkout</span>
+<span>Rasmiylashtirishga o‘tish</span>
+</div>
+<span class="font-headline-md text-[18px] font-black">20 620 000 so‘m</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+  // Dynamic Counter & Telegram Micro-Interactions
+  document.querySelectorAll('#cart-list .inline-flex button').forEach(button => {
+    button.addEventListener('click', function (e) {
+      e.stopPropagation();
+      const parent = this.parentElement;
+      const countEl = parent.querySelector('span');
+      let count = parseInt(countEl.innerText);
+      const isAdd = this.querySelector('.material-symbols-outlined').innerText === 'add';
+
+      if (isAdd) {
+        count += 1;
+      } else if (count > 1) {
+        count -= 1;
+      }
+      countEl.innerText = count;
+
+      if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+        window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+      }
+    });
+  });
+
+  const checkoutBtn = document.getElementById('btn-checkout');
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', function() {
+      if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+      }
+    });
+  }
+</script>
+</main>
+<nav class="fixed bottom-0 w-full z-50 pb-safe bg-white/95 backdrop-blur-xl border-t border-gray-200/90 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]"><div class="h-16 px-space-sm flex items-center justify-around"><a class="flex flex-col items-center justify-center w-14 h-12 text-gray-500 hover:text-[#7b5500] transition-all" data-path="bosh-sahifa" href="#"><span class="material-symbols-outlined text-[22px]">home</span><span class="font-label-sm text-label-sm font-medium tracking-tight">Asosiy</span></a><a class="flex flex-col items-center justify-center w-14 h-12 text-gray-500 hover:text-[#7b5500] transition-all" data-path="katalog" href="#"><span class="material-symbols-outlined text-[22px]">dashboard</span><span class="font-label-sm text-label-sm font-medium tracking-tight">Katalog</span></a><a aria-current="page" class="relative flex flex-col items-center justify-center w-14 h-12 text-[#7b5500] font-bold transition-all" data-path="savat" href="#"><span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">shopping_bag</span><span class="absolute top-1 right-3.5 w-4 h-4 rounded-full bg-[#7b5500] text-white font-label-sm text-[9px] font-bold flex items-center justify-center shadow-sm">3</span><span class="font-label-sm text-label-sm tracking-tight font-bold">Savat</span></a><a class="flex flex-col items-center justify-center w-14 h-12 text-gray-500 hover:text-[#7b5500] transition-all" data-path="sevimlilar" href="#"><span class="material-symbols-outlined text-[22px]">favorite</span><span class="font-label-sm text-label-sm font-medium tracking-tight">Sevimlilar</span></a><a class="flex flex-col items-center justify-center w-14 h-12 text-gray-500 hover:text-[#7b5500] transition-all" data-path="profil" href="#"><span class="material-symbols-outlined text-[22px]">account_circle</span><span class="font-label-sm text-label-sm font-medium tracking-tight">Profil</span></a></div></nav>
+</body></html>

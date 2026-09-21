@@ -1,4 +1,5 @@
 import { extractContactResponse } from './contactResponse.ts';
+import { tokensFor, type Theme } from '../theme/tokens.ts';
 
 // Thin typed wrapper around window.Telegram.WebApp. No SDK dependency: the
 // real object is injected by the telegram-web-app.js script tag in index.html.
@@ -81,8 +82,6 @@ export function getInitData(): string | null {
   return webApp.initData;
 }
 
-const HEADER_BACKGROUND_COLOR = '#121316';
-
 export function initTelegram(): void {
   const webApp = getWebApp();
   if (webApp === null) {
@@ -90,8 +89,17 @@ export function initTelegram(): void {
   }
   webApp.ready();
   webApp.expand();
-  webApp.setHeaderColor(HEADER_BACKGROUND_COLOR);
-  webApp.setBackgroundColor(HEADER_BACKGROUND_COLOR);
+}
+
+/** Keeps Telegram's own header/background chrome in step with the app theme. */
+export function applyTelegramTheme(theme: Theme): void {
+  const webApp = getWebApp();
+  if (webApp === null) {
+    return;
+  }
+  const color = tokensFor(theme).background;
+  webApp.setHeaderColor(color);
+  webApp.setBackgroundColor(color);
 }
 
 export function cloudStorageGet(key: string): Promise<string | null> {
