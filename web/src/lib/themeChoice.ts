@@ -47,6 +47,12 @@ export function resolveThemeChoice(local: ThemeChoice | null, cloud: ThemeChoice
   return local ?? cloud ?? defaultChoice();
 }
 
+/** `/admin` and `/admin/...` are always dark (no Stitch Light for the admin panel);
+ * anything else follows the user's choice (`null`). `/administrator` is not admin. */
+export function forcedThemeForPath(pathname: string): Theme | null {
+  return pathname === '/admin' || pathname.startsWith('/admin/') ? 'dark' : null;
+}
+
 export function otherTheme(theme: Theme): Theme {
   return theme === 'dark' ? 'light' : 'dark';
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { defaultChoice, otherTheme, parseThemeChoice, resolveThemeChoice } from '../themeChoice.ts';
+import { defaultChoice, forcedThemeForPath, otherTheme, parseThemeChoice, resolveThemeChoice } from '../themeChoice.ts';
 
 describe('parseThemeChoice', () => {
   it('returns null when nothing is stored', () => {
@@ -40,6 +40,17 @@ describe('resolveThemeChoice', () => {
 
   it('local wins on a tie', () => {
     expect(resolveThemeChoice(dark(5), light(5))).toEqual(dark(5));
+  });
+});
+
+describe('forcedThemeForPath', () => {
+  it('forces dark on /admin and below, nothing elsewhere', () => {
+    expect(forcedThemeForPath('/admin')).toBe('dark');
+    expect(forcedThemeForPath('/admin/')).toBe('dark');
+    expect(forcedThemeForPath('/admin/orders/12')).toBe('dark');
+    expect(forcedThemeForPath('/')).toBeNull();
+    expect(forcedThemeForPath('/profile')).toBeNull();
+    expect(forcedThemeForPath('/administrator')).toBeNull();
   });
 });
 

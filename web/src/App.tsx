@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense, useEffect, useLayoutEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { BottomNav } from './components/BottomNav.tsx';
 import { RequireAuth } from './components/RequireAuth.tsx';
@@ -17,6 +17,8 @@ import { Addresses } from './pages/Addresses.tsx';
 import { Skeleton } from './components/States.tsx';
 import { cartStore } from './lib/cart.ts';
 import { initTelegram } from './lib/telegram.ts';
+import { themeStore } from './lib/theme.ts';
+import { forcedThemeForPath } from './lib/themeChoice.ts';
 
 // React.lazy so the admin panel (phase 4b, incl. its xlsx/SheetJS import
 // chunk) never lands in the customer's main bundle — only fetched when a
@@ -29,6 +31,14 @@ const NAV_HIDDEN_PATHS = ['/checkout', '/admin'];
 export function App(): JSX.Element {
   const location = useLocation();
   const showBottomNav = !NAV_HIDDEN_PATHS.some((path) => location.pathname.startsWith(path));
+
+  // Admin stays dark whatever the user picked. It sets the <html> flag (not a
+  // wrapper class) so modals/toasts rendered outside the route tree follow too,
+  // and it runs before paint so a deep link to /admin never flashes light.
+  const forcedTheme = forcedThemeForPath(location.pathname);
+  useLayoutEffect(() => {
+    themeStore.forceTheme(forcedTheme);
+  }, [forcedTheme]);
 
   useEffect(() => {
     initTelegram();
