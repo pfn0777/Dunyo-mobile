@@ -1,0 +1,30 @@
+#!/bin/sh
+# Blocks a commit that adds a real Telegram bot token to a .env* file, or
+# stages a real .env file at all. Enable once per clone:
+#   git config core.hooksPath .githooks
+#
+# Keep BOT_TOKEN_SHAPE / DOCS_EXAMPLE_BOT_ID in sync with
+# api/test/envExampleSecrets.test.ts, which enforces the same rule in CI.
+
+BOT_TOKEN_SHAPE='[0-9]{8,10}:[A-Za-z0-9_-]{35}'
+DOCS_EXAMPLE_BOT_ID='123456789'
+
+staged=$(git diff --cached --name-only --diff-filter=ACM | grep -E '(^|/)\.env(\.[^/]*)?$')
+[ -z "$staged" ] && exit 0
+
+status=0
+for file in $staged; do
+  case "$file" in
+    *.example)
+      if git diff --cached -U0 -- "$file" | grep -E '^\+[^+]' | grep -E "$BOT_TOKEN_SHAPE" | grep -qvE "=$DOCS_EXAMPLE_BOT_ID:"; then
+        echo "pre-commit: $file adds a real-looking Telegram bot token. Use a placeholder." >&2
+        status=1
+      fi
+      ;;
+    *)
+      echo "pre-commit: $file is a real env file and must never be committed." >&2
+      status=1
+      ;;
+  esac
+done
+exit $status
