@@ -15,5 +15,16 @@ export function contrastRatio(a: string, b: string): number {
   return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
 }
 
+/** '#rrggbb' foreground at `alpha` (0..1) painted over a '#rrggbb' background. */
+export function compositeOver(foreground: string, alpha: number, background: string): string {
+  const f = parseInt(foreground.slice(1), 16);
+  const b = parseInt(background.slice(1), 16);
+  const mix = (shift: number): string => {
+    const value = Math.round(alpha * ((f >> shift) & 255) + (1 - alpha) * ((b >> shift) & 255));
+    return value.toString(16).padStart(2, '0');
+  };
+  return `#${mix(16)}${mix(8)}${mix(0)}`;
+}
+
 export const WCAG_AA_TEXT = 4.5;
 export const WCAG_AA_LARGE_OR_UI = 3;

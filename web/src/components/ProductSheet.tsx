@@ -146,7 +146,7 @@ export function ProductSheet({ product, onClose }: { product: Product; onClose: 
                       }`}
                     >
                       <span
-                        className="w-6 h-6 rounded-full border border-outline/70 dark:border-outline-variant"
+                        className="w-6 h-6 rounded-full border border-outline"
                         style={{ backgroundColor: c.hex ?? '#888888' }}
                       />
                     </button>
@@ -169,7 +169,7 @@ export function ProductSheet({ product, onClose }: { product: Product; onClose: 
                         disabled={chipOutOfStock}
                         onClick={() => setSelectedStorage(gb)}
                         className={`px-space-md h-10 rounded-full text-label-lg font-label-lg border ${
-                          selectedStorage === gb ? 'bg-primary text-on-primary border-primary' : 'border-outline-variant text-on-surface'
+                          selectedStorage === gb ? 'bg-primary text-on-primary border-primary' : 'border-outline/80 dark:border-outline-variant text-on-surface'
                         } ${chipOutOfStock ? 'opacity-40 line-through' : ''}`}
                       >
                         {gb} GB

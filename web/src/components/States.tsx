@@ -12,7 +12,7 @@ export function ErrorState({ message, onRetry }: { message?: string; onRetry: ()
       <button
         type="button"
         onClick={onRetry}
-        className="min-h-[44px] px-space-lg rounded-xl bg-surface-container text-on-surface text-label-md font-label-md"
+        className="min-h-[44px] px-space-lg rounded-xl bg-surface-container text-on-surface text-label-md font-label-md border border-outline/80 dark:border-0"
       >
         {t('common.retry')}
       </button>
