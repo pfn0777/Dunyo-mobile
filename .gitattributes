@@ -1,0 +1,6 @@
+# Files consumed by Linux (server / containers) must never get CRLF,
+# whatever core.autocrlf is on the committing machine.
+*.sh text eol=lf
+Dockerfile* text eol=lf
+docker-compose.yml text eol=lf
+Caddyfile text eol=lf
