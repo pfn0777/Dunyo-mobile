@@ -34,7 +34,7 @@ o'zida haqiqiy sir (token, parol, kalit) yo'q.
   nusxada saqlang (masalan shifrlangan USB flesh + parol menejeri). Faqat
   shu kalit bilan backup'larni ochish mumkin; yo'qolsa, barcha backup'lar
   o'qib bo'lmas holga keladi.
-- **rclone remote** (Hetzner Storage Box): Storage Box'ni Hetzner Cloud
+- **rclone remote** (ixtiyoriy; Hetzner Storage Box): Storage Box'ni Hetzner Cloud
   konsolida yarating (SFTP/WebDAV), so'ng lokal yoki serverda:
 
   ```bash
@@ -281,46 +281,87 @@ hech narsa topmasligini tekshiring.
 
 ## 9) Backup: sinash va tiklash
 
-**GPG public kalitni backup konteyneriga import qiling** (bir martalik
-sozlash, `backup_gnupg` volume'da saqlanadi):
+Backup'lar GPG bilan shifrlanib, Telegram'dagi **alohida yopiq guruh**ga
+(`BACKUP_TELEGRAM_CHAT_ID`, do'kon buyurtma guruhi emas) `sendDocument` bilan
+yuboriladi. Serverda faqat **public** kalit bor, private kalit lokal mashinada
+qoladi. `RCLONE_REMOTE` ixtiyoriy (qo'shimcha nusxa va katta fayllar uchun).
+
+`backup` xizmati `docker compose` da **`backup` profili** ostida — oddiy
+`up` uni ishga tushirmaydi. Quyidagi 1-3 qadamdan keyin yoqing.
+
+**1. Backup guruhi.** Alohida yopiq guruh oching, botni a'zo qiling, guruhga
+xabar yozing va chat id'ni oling (manfiy son):
 
 ```bash
+curl -s "https://api.telegram.org/bot<TOKEN>/getUpdates"   # "chat":{"id":-...}
+```
+
+**2. GPG public kalitni serverga import qiling** (bir martalik,
+`backup_gnupg` volume'da saqlanadi). Kalit juftligi §1 dagidek **lokal**
+mashinada yaratilgan; serverga faqat `dunyo-backup-public.asc` boradi:
+
+```bash
+docker compose --profile backup up -d backup
 docker compose cp dunyo-backup-public.asc backup:/tmp/pub.asc
 docker compose exec backup gpg --import /tmp/pub.asc
+docker compose exec backup gpg --list-secret-keys   # BO'SH bo'lishi shart
 ```
 
-**rclone remote'ni backup konteyneriga sozlang** (bir martalik, `rclone
-config` interaktiv — konteyner ichida ishga tushiring, `backup_rclone_config`
-volume'da saqlanadi):
+**3. `deploy/.env`** da `BACKUP_GPG_RECIPIENT` va `BACKUP_TELEGRAM_CHAT_ID`
+to'ldiring, `docker compose --profile backup up -d`.
 
-```bash
-docker compose exec backup rclone config
-```
-
-**Qo'lda ishga tushiring**:
+**Qo'lda ishga tushiring** — fayl backup guruhiga kelishi kerak:
 
 ```bash
 docker compose exec backup bash /usr/local/bin/backup.sh db
 ```
 
-Storage Box'da shifrlangan fayl paydo bo'lganini tekshiring:
+Nosozlikda (dump, shifrlash, yuborish) skript o'sha guruhga "backup FAILED"
+xabarini yuboradi va noldan farqli kod bilan tugaydi.
+
+**Cheklov:** cloud Bot API 50 MB gacha fayl qabul qiladi. Katta fayl
+(odatda haftalik `media` arxivi) uchun `RCLONE_REMOTE` sozlang yoki
+`TELEGRAM_API_BASE` ni lokal telegram-bot-api'ga yo'naltiring (2 GB).
+Ikkalasi ham bo'lmasa, skript xato bilan tugaydi (jimgina yo'qotmaydi).
+
+### Tiklash (restore)
+
+**Tiklashni albatta sinab ko'ring** — hech qachon tiklanmagan backup, backup
+emas. Bu **lokal** mashinada bajariladi (private kalit shu yerda), **production'ga
+emas**. Sinov `docker` + `postgres:16-alpine` bilan o'tkazilgan (2026-09-21,
+sintetik kalit bilan): jadvallar va qatorlar soni manba bilan bir xil chiqdi.
 
 ```bash
-docker compose exec backup rclone ls "$RCLONE_REMOTE/db/"
+# 1. Backup guruhidan .dump.gpg faylni yuklab oling (Telegram Desktop).
+# 2. Private kalit bilan oching (kalit importlangan bo'lishi kerak):
+gpg --decrypt dunyo-<stamp>.dump.gpg > dunyo.dump
+pg_restore --list dunyo.dump | head        # tarkibni ko'rish
+
+# 3. Vaqtinchalik baza ko'taring:
+docker run -d --name restore-test -e POSTGRES_PASSWORD=pw postgres:16-alpine
+docker exec restore-test psql -U postgres -c "create database restore_test"
+
+# 4. MUHIM: pg_trgm kengaytmasini OLDINDAN yarating — dump uni o'z ichiga
+#    olmaydi, usiz qidiruv indeksi (gin_trgm_ops) tiklanmaydi.
+docker exec restore-test psql -U postgres -d restore_test -c "create extension pg_trgm"
+
+# 5. Tiklash:
+docker exec -i restore-test pg_restore -U postgres --no-owner --no-privileges  -d restore_test < dunyo.dump
 ```
 
-**Tiklashni albatta sinab ko'ring** — hech qachon tiklanmagan backup,
-backup emas:
+Kutilgan natija: `pg_restore` **yagona** xato bilan tugaydi —
+`schema "public" already exists` (zararsiz, exit kodi 1). Boshqa xato bo'lsa,
+backup yaroqsiz. Tekshirish:
 
 ```bash
-docker compose exec backup rclone copy "$RCLONE_REMOTE/db/dunyo-<stamp>.dump.gpg" /tmp/
-docker compose exec backup gpg --decrypt /tmp/dunyo-<stamp>.dump.gpg > /tmp/dunyo.dump
-docker compose exec backup pg_restore --list /tmp/dunyo.dump   # tarkibni ko'rish
-
-# To'liq tiklash — lokal/skretch bazaga, PRODUCTION'GA EMAS:
-docker compose exec backup pg_restore --no-owner --no-privileges \
-  -d "<lokal yoki skretch DB URI>" /tmp/dunyo.dump
+docker exec restore-test psql -U postgres -d restore_test -c "dt public.*"
+docker exec restore-test psql -U postgres -d restore_test -c "select count(*) from orders"
+docker rm -f restore-test   # sinovdan keyin
 ```
+
+Haqiqiy tiklash (production) uchun avval `api` ni to'xtating
+(`docker compose stop api`), bo'sh bazaga xuddi shu tartibda tiklang va `api` ni
+qayta ishga tushiring.
 
 ---
 

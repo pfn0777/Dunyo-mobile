@@ -1,5 +1,11 @@
 # TODO
 
+## Backups must be enabled before real orders (BLOCKER for go-live)
+
+- The `backup` service is behind the compose profile `backup` (off by default) until the GPG public key is imported and the private backup group exists.
+- **Before taking real orders:** create the private backup group, import the GPG public key, set `BACKUP_GPG_RECIPIENT` and `BACKUP_TELEGRAM_CHAT_ID` in `deploy/.env`, run `docker compose --profile backup up -d`, run `backup.sh db` once, and do the restore drill from docs/deploy.md §9.
+- Delivery is Telegram `sendDocument` (cloud Bot API: 50 MB limit). The weekly media archive will outgrow that: set `RCLONE_REMOTE` (Storage Box) or `TELEGRAM_API_BASE` to a local telegram-bot-api (2 GB). Until then a too-large media archive fails loudly (alert), it is never dropped silently.
+
 ## Flaky db-tests under load (PGlite hook timeout)
 
 - **Symptom:** in a full `npm test` run, `db-tests/create-order.test.ts` and `db-tests/set-order-status.test.ts` fail with `Hook timed out in 10000ms` (followed by `Cannot read properties of undefined (reading 'close')` from the teardown). Run alone (`npx vitest run db-tests`) they pass (23 passed, 5 skipped).

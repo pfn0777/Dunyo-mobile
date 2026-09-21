@@ -55,6 +55,14 @@ services:
       - "127.0.0.1:3010:3000"
 
   backup:
+    # Off by default until a Storage Box / rclone remote exists: start it
+    # with `docker compose --profile backup up -d`. See docs/TODO.md --
+    # backups MUST be enabled before real orders are taken.
+    profiles: ["backup"]
+    # Lets TELEGRAM_API_BASE point at a telegram-bot-api server running on
+    # the host (http://host.docker.internal:8081). Unused by default.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     # No custom image is built for this service (keeps the deliverable
     # surface to docker-compose.yml + backup.sh, per the deploy spec): it's
     # a stock Alpine image that installs the three tools it needs
